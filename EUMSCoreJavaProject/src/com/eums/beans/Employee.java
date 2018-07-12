@@ -1,91 +1,84 @@
 package com.eums.beans;
 
 //Employee POJO
+
 public class Employee {
-	
-	String eid,email,epassword,ename,enumber,eaddress,eteam,etype;
-
-	public Employee(String eid, String email, String epassword, String ename, String enumber, String eaddress,
-			String eteam, String etype) {
+	private Integer employeeID;
+	private String employeeName;
+	private String employeeEmail;
+	private String employeePassword;
+	private String employeeType;
+	private String employeeTeam;
+	private String employeeAddress;
+	private String employeeContactNo;
+	public Employee(Integer employeeID, String employeeName, String employeeEmail, String employeePassword,
+			String employeeType, String employeeTeam, String employeeAddress, String employeeContactNo) {
 		super();
-		this.eid = eid;
-		this.email = email;
-		this.epassword = epassword;
-		this.ename = ename;
-		this.enumber = enumber;
-		this.eaddress = eaddress;
-		this.eteam = eteam;
-		this.etype = etype;
+		this.employeeID = employeeID;
+		this.employeeName = employeeName;
+		this.employeeEmail = employeeEmail;
+		this.employeePassword = employeePassword;
+		this.employeeType = employeeType;
+		this.employeeTeam = employeeTeam;
+		this.employeeAddress = employeeAddress;
+		this.employeeContactNo = employeeContactNo;
 	}
-	
-	public String getEid() {
-		return eid;
+	public Integer getEmployeeID() {
+		return employeeID;
 	}
-
-	public void setEid(String eid) {
-		this.eid = eid;
+	public void setEmployeeID(Integer employeeID) {
+		this.employeeID = employeeID;
 	}
-
-	public String getEmail() {
-		return email;
+	public String getEmployeeName() {
+		return employeeName;
 	}
-
-	public void setEmail(String email) {
-		this.email = email;
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
 	}
-
-	public String getEpassword() {
-		return epassword;
+	public String getEmployeeEmail() {
+		return employeeEmail;
 	}
-
-	public void setEpassword(String epassword) {
-		this.epassword = epassword;
+	public void setEmployeeEmail(String employeeEmail) {
+		this.employeeEmail = employeeEmail;
 	}
-
-	public String getEname() {
-		return ename;
+	public String getEmployeePassword() {
+		return employeePassword;
 	}
-
-	public void setEname(String ename) {
-		this.ename = ename;
+	public void setEmployeePassword(String employeePassword) {
+		this.employeePassword = employeePassword;
 	}
-
-	public String getEnumber() {
-		return enumber;
+	public String getEmployeeType() {
+		return employeeType;
 	}
-
-	public void setEnumber(String enumber) {
-		this.enumber = enumber;
+	public void setEmployeeType(String employeeType) {
+		this.employeeType = employeeType;
 	}
-
-	public String getEaddress() {
-		return eaddress;
+	public String getEmployeeTeam() {
+		return employeeTeam;
 	}
-
-	public void setEaddress(String eaddress) {
-		this.eaddress = eaddress;
+	public void setEmployeeTeam(String employeeTeam) {
+		this.employeeTeam = employeeTeam;
 	}
-
-	public String getEteam() {
-		return eteam;
+	public String getEmployeeAddress() {
+		return employeeAddress;
 	}
-
-	public void setEteam(String eteam) {
-		this.eteam = eteam;
+	public void setEmployeeAddress(String employeeAddress) {
+		this.employeeAddress = employeeAddress;
 	}
-
-	public String getEtype() {
-		return etype;
+	public String getEmployeeContactNo() {
+		return employeeContactNo;
 	}
-
-	public void setEtype(String etype) {
-		this.etype = etype;
+	public void setEmployeeContactNo(String employeeContactNo) {
+		this.employeeContactNo = employeeContactNo;
 	}
-
 	@Override
 	public String toString() {
-		return "Employee [eid=" + eid + ", email=" + email + ", ename=" + ename + ", enumber=" + enumber + ", eaddress="
-				+ eaddress + ", eteam=" + eteam + "]";
+		return "Employee [employeeID=" + employeeID + ", employeeName=" + employeeName + ", employeeEmail="
+				+ employeeEmail + ", employeeTeam=" + employeeTeam + ", employeeAddress=" + employeeAddress
+				+ ", employeeContactNo=" + employeeContactNo + "]";
 	}
-
+	
+	
+	
+	
 }

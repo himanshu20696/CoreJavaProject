@@ -1,0 +1,156 @@
+CREATE DATABASE training
+    WITH 
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'English_India.1252'
+    LC_CTYPE = 'English_India.1252'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1;
+
+===============================
+
+CREATE TABLE public.employee_information
+(
+    eid character varying(5),
+    eemail character varying(30),
+    epassword character varying(30),
+    etype character varying(3),
+	ename character varying(20),
+	enumber character varying(10),
+	eaddress character varying(50),
+	eteam character varying(20),
+    PRIMARY KEY (eid)
+)
+WITH (
+    OIDS = FALSE
+);
+
+ALTER TABLE public.employee_information
+    OWNER to postgres;
+
+===============================
+
+CREATE TABLE public.training_details
+(
+    tid serial,
+    tname character varying(20),
+	ttype character varying(10),
+    trainername character varying(20),
+    startdate date,
+    enddate date,
+    maxcapacity integer,
+    availablecapacity integer,
+    status character varying(20),
+    mandatory boolean,
+    PRIMARY KEY (tid)
+)
+WITH (
+    OIDS = FALSE
+);
+
+ALTER TABLE public.training_details
+    OWNER to postgres;
+
+===============================
+
+CREATE TABLE public.requested_training
+(
+    user__id character varying(5),
+    training__id integer,
+    enrolledtime timestamp,
+	accepted boolean,
+	notified boolean,
+    PRIMARY KEY (user__id, training__id)
+)
+WITH (
+    OIDS = FALSE
+);
+
+ALTER TABLE public.requested_training
+    OWNER to postgres;
+
+ALTER TABLE public.requested_training
+    ADD CONSTRAINT requested_training_user_fkey FOREIGN KEY (user__id)
+    REFERENCES public.employee_information (eid) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION;
+CREATE INDEX fki_requested_training_user_fkey
+    ON public.requested_training(user__id);
+
+ALTER TABLE public.requested_training
+    ADD CONSTRAINT requested_training_training_fkey FOREIGN KEY (training__id)
+    REFERENCES public.training_details (tid) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION;
+CREATE INDEX fki_requested_training_training_fkey
+    ON public.requested_training(training__id);
+
+===============================
+
+CREATE TABLE public.user_enrolled_for_training
+(
+    user__id character varying(5),
+    training__id integer,
+    PRIMARY KEY (user__id, training__id)
+)
+WITH (
+    OIDS = FALSE
+);
+
+ALTER TABLE public.user_enrolled_for_training
+    OWNER to postgres;
+
+ALTER TABLE public.employee_enrolled_for_training
+    ADD CONSTRAINT user_enrolled_for_training_user_fkey FOREIGN KEY (user__id)
+    REFERENCES public.employee_information (eid) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION;
+CREATE INDEX fki_user_enrolled_for_training_user_fkey
+    ON public.employee_enrolled_for_training(user__id);
+
+ALTER TABLE public.employee_enrolled_for_training
+    ADD CONSTRAINT user_enrolled_for_training_training_fkey FOREIGN KEY (training__id)
+    REFERENCES public.training_details (tid) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION;
+CREATE INDEX fki_user_enrolled_for_training_training_fkey
+    ON public.employee_enrolled_for_training(training__id);
+
+===============================
+
+CREATE TABLE public.feedback
+(
+    user__id character varying(5),
+    training__id integer,
+    coverageoftopics integer,
+    effectivenessofcource integer,
+    presentationstyle integer,
+    paceofdelivery integer,
+    courceoverall integer,
+    traineroverall integer,
+    PRIMARY KEY (user__id, training__id)
+)
+WITH (
+    OIDS = FALSE
+);
+
+ALTER TABLE public.feedback
+    OWNER to postgres;
+
+ALTER TABLE public.feedback
+    ADD CONSTRAINT feedback_user_fkey FOREIGN KEY (user__id)
+    REFERENCES public.employee_information (eid) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION;
+CREATE INDEX fki_feedback_user_fkey
+    ON public.feedback(user__id);
+
+ALTER TABLE public.feedback
+    ADD CONSTRAINT feedback_training_fkey FOREIGN KEY (training__id)
+    REFERENCES public.training_details (tid) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION;
+CREATE INDEX fki_feedback_training_fkey
+    ON public.feedback(training__id);
+
+===============================
