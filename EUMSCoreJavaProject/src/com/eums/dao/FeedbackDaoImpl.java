@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -16,13 +19,13 @@ import com.eums.helper.DBConnection;
 public class FeedbackDaoImpl implements FeedbackDao {
 
 	@Override
-	public boolean insertFeedback(int trainingId, String employeeId, Feedback feedback) throws SQLException {
+	public boolean insertFeedback(Feedback feedback) throws SQLException {
 		Connection con=null; 
 		PreparedStatement pst=null;
 		con=DBConnection.getDBConnection();
 		pst=con.prepareStatement("insert into feedback values(?,?,?,?,?,?,?,?)");		
-		pst.setString(1,employeeId);
-		pst.setInt(2, trainingId);
+		pst.setString(1,feedback.getEid());
+		pst.setInt(2, feedback.getTid());
 		pst.setInt(3, feedback.getCoverageoftopics());
 		pst.setInt(4, feedback.getEffectivenessofcource());
 		pst.setInt(5, feedback.getPresentationstyle());
@@ -81,6 +84,8 @@ public class FeedbackDaoImpl implements FeedbackDao {
 
 	@Override
 	public LinkedHashMap<Integer, String> generatePopupList(String employeeID) throws SQLException {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
 		Connection con=null;
 		Statement stmt=null;
 		con=DBConnection.getDBConnection();
@@ -89,9 +94,12 @@ public class FeedbackDaoImpl implements FeedbackDao {
 		ResultSet rs = stmt.executeQuery("select requested_training.training_id, training_details.tname from "
 				+ "requested_training inner join training_details on  "
 				+ "requested_training.training_id=training_details.tid"
-				+ "where requested_training.user_id="+employeeID);
+				+ "where requested_training.user_id="+employeeID+"and "+dateFormat.format(date)+">training_details.enddate and "
+						+ "requested_training.notified=false");
 		while(rs.next()){
 			hashmap.put(rs.getInt(1),rs.getString(2));
+			stmt.executeQuery("Update requested_training set notified=true "
+					+ "where training_id="+rs.getInt(1));
 		}
 		return hashmap;
 	}
