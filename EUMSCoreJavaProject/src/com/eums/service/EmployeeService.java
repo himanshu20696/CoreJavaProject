@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.eums.beans.*;
 public interface EmployeeService {
 	ArrayList<Training> viewUpcommingTraining(Training training);
-	ArrayList<Training> viewEnrolledTraining();
+	ArrayList<Training> viewEnrolledTraining(int employeeId);
 	boolean enrollForTraining(int trainingId);
 	boolean feedbackFilling(Feedback feedback);
 	boolean feedbackDisablement(Training training);
