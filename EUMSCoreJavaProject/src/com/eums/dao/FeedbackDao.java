@@ -8,8 +8,8 @@ import com.eums.beans.Feedback;
 
 public interface FeedbackDao {
 	
-	boolean insertFeedback(int trainingId,int employeeId,Feedback feedback) throws SQLException;
+	boolean insertFeedback(int trainingId,String employeeId,Feedback feedback) throws SQLException;
 	List<Feedback> listDetailedFeedback(int trainingId) throws SQLException;
-	Feedback listConsolidatedFeedback(int trainingId) throws SQLException;
-	LinkedHashMap<Integer, String> generatePopupList() throws SQLException;
+	String listConsolidatedFeedback(int trainingId) throws SQLException;
+	LinkedHashMap<Integer, String> generatePopupList(String employeeID) throws SQLException;
 }

@@ -3,7 +3,7 @@ package com.eums.beans;
 //Employee POJO
 
 public class Employee {
-	private Integer employeeID;
+	private String employeeID;
 	private String employeeName;
 	private String employeeEmail;
 	private String employeePassword;
@@ -11,7 +11,7 @@ public class Employee {
 	private String employeeTeam;
 	private String employeeAddress;
 	private String employeeContactNo;
-	public Employee(Integer employeeID, String employeeName, String employeeEmail, String employeePassword,
+	public Employee(String employeeID, String employeeName, String employeeEmail, String employeePassword,
 			String employeeType, String employeeTeam, String employeeAddress, String employeeContactNo) {
 		super();
 		this.employeeID = employeeID;
@@ -23,10 +23,10 @@ public class Employee {
 		this.employeeAddress = employeeAddress;
 		this.employeeContactNo = employeeContactNo;
 	}
-	public Integer getEmployeeID() {
+	public String getEmployeeID() {
 		return employeeID;
 	}
-	public void setEmployeeID(Integer employeeID) {
+	public void setEmployeeID(String employeeID) {
 		this.employeeID = employeeID;
 	}
 	public String getEmployeeName() {

@@ -22,7 +22,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		ResultSet rs=stmt.executeQuery("select * from company");
 		Employee employee=null;
 		while(rs.next()){
-			Integer employeeId=rs.getInt(1);
+			String employeeId=rs.getString(1);
 			String employeeName=rs.getString(2);
 			String employeeEmail=rs.getString(3);
 			String employeePassword=rs.getString(4);
@@ -39,7 +39,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	}
 
 	@Override
-	public Employee searchRecord(int employeeId) throws SQLException {
+	public Employee searchRecord(String employeeId) throws SQLException {
 		Connection con=null; 
 		Statement stmt=null;
 		con=DBConnection.getDBConnection();
@@ -67,7 +67,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		PreparedStatement pst=null;
 		con=DBConnection.getDBConnection();
 		pst=con.prepareStatement("insert into employee_details values(?,?,?,?,?,?,?,?)");		
-		pst.setInt(1, employee.getEmployeeID());
+		pst.setString(1, employee.getEmployeeID());
 		pst.setString(2, employee.getEmployeeName());
 		pst.setString(3, employee.getEmployeeEmail());
 		pst.setString(4, employee.getEmployeePassword());
@@ -85,7 +85,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	}
 
 	@Override
-	public boolean deleteRecord(int employeeId) throws SQLException {
+	public boolean deleteRecord(String employeeId) throws SQLException {
 		Connection con=null; 
 		Statement stmt=null;
 		con=DBConnection.getDBConnection();
@@ -98,7 +98,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	}
 
 	@Override
-	public boolean updateRecord(int employeeId, Employee newEmployee) throws SQLException {
+	public boolean updateRecord(String employeeId, Employee newEmployee) throws SQLException {
 
 		Connection con=null; 
 		PreparedStatement pst=null;
@@ -119,7 +119,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		pst.setString(5, newEmployee.getEmployeeTeam());
 		pst.setString(6, newEmployee.getEmployeeAddress());
 		pst.setString(7, newEmployee.getEmployeeContactNo());
-		pst.setInt(8, employeeId);
+		pst.setString(8, employeeId);
 		int rows = pst.executeUpdate();
 		if(rows <= 0)
 			return false;
