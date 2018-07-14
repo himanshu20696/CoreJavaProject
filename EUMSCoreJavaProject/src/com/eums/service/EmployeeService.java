@@ -1,19 +1,17 @@
 package com.eums.service;
-import java.awt.List;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import com.eums.beans.*;
+import com.eums.beans.Feedback;
+import com.eums.beans.Training;
+
 public interface EmployeeService {
-	ArrayList<Training> viewUpcommingTraining(Training training);
-	ArrayList<Training> viewEnrolledTraining(int employeeId);
-	boolean enrollForTraining(int trainingId);
+	ArrayList<Training> viewUpcommingTraining() throws SQLException;
+	ArrayList<Training> viewEnrolledTraining(String employeeId) throws SQLException;
+	boolean enrollForTraining(int trainingId, String employeeId) throws SQLException;
 	boolean feedbackFilling(Feedback feedback) throws SQLException;
-	boolean feedbackDisablement(Training training);
+	void feedbackDisablement(String employeeId) throws SQLException;
 	LinkedHashMap<Integer, String> feedbackPopup(String employeeID) throws SQLException;
-	boolean notificationOfEnrollment(RequestedTraining requestedtraining);
-	
-	
-	
+	LinkedHashMap<String, Boolean> notificationOfEnrollment(String employeeId) throws SQLException;
 }

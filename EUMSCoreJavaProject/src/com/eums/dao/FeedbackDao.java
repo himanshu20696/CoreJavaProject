@@ -12,4 +12,5 @@ public interface FeedbackDao {
 	List<Feedback> listDetailedFeedback(int trainingId) throws SQLException;
 	String listConsolidatedFeedback(int trainingId) throws SQLException;
 	LinkedHashMap<Integer, String> generatePopupList(String employeeID) throws SQLException;
+	boolean updateRecord(String employeeId, int trainingId, Feedback newFeedback) throws SQLException;
 }

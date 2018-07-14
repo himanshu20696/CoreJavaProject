@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import com.eums.beans.Employee;
 import com.eums.beans.Feedback;
 import com.eums.helper.DBConnection;
 
@@ -102,6 +101,33 @@ public class FeedbackDaoImpl implements FeedbackDao {
 					+ "where training_id="+rs.getInt(1));
 		}
 		return hashmap;
+	}
+
+	@Override
+	public boolean updateRecord(String employeeId, int trainingId, Feedback newFeedback) throws SQLException {
+		Connection con=null; 
+		PreparedStatement pst=null;
+		con=DBConnection.getDBConnection();
+		pst=con.prepareStatement("update feedback set "
+				+ "coverageoftopics=?"
+				+ "effectivenessofcource=?"
+				+ "presentationstyle=?"
+				+ "paceofdelivery=?"
+				+ "courceoverall=?"
+				+ "traineroverall=?"
+				+ "where user__id=? and training__id=?");
+		pst.setInt(1, newFeedback.getCoverageoftopics());
+		pst.setInt(2, newFeedback.getEffectivenessofcource());
+		pst.setInt(3, newFeedback.getPresentationstyle());
+		pst.setInt(4, newFeedback.getPaceofdelivery());
+		pst.setInt(5, newFeedback.getCourceoverall());
+		pst.setInt(6, newFeedback.getTraineroverall());
+		pst.setString(7, employeeId);
+		pst.setInt(8, trainingId);
+		int rows = pst.executeUpdate();
+		if(rows <= 0)
+			return false;
+		return true;
 	}
 
 }

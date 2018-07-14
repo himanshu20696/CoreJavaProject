@@ -87,7 +87,7 @@ CREATE INDEX fki_requested_training_training_fkey
 
 ===============================
 
-CREATE TABLE public.user_enrolled_for_training
+CREATE TABLE public.employee_enrolled_for_training
 (
     user__id character varying(5),
     training__id integer,
@@ -97,7 +97,7 @@ WITH (
     OIDS = FALSE
 );
 
-ALTER TABLE public.user_enrolled_for_training
+ALTER TABLE public.employee_enrolled_for_training
     OWNER to postgres;
 
 ALTER TABLE public.employee_enrolled_for_training
