@@ -9,9 +9,9 @@ public class Feedback {
 	private int paceofdelivery;
 	private int courceoverall;
 	private int traineroverall;
-	
+
 	public Feedback() {
-		
+
 	}
 
 	public Feedback(String eid, int tid, int coverageoftopics, int effectivenessofcource, int presentationstyle,
@@ -98,6 +98,6 @@ public class Feedback {
 				+ ", paceofdelivery=" + paceofdelivery + ", courceoverall=" + courceoverall + ", traineroverall="
 				+ traineroverall + "]";
 	}
-	
-	
+
+
 }

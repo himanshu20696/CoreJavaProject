@@ -31,7 +31,7 @@ public class EnrolledTrainingDaoImpl implements EnrolledTrainingDao {
 	}
 
 	public boolean insertRecord(EnrolledTraining enrolledTraining) throws SQLException {
-		
+
 		Connection con=null; 
 		PreparedStatement pst=null;
 		con=DBConnection.getDBConnection();
@@ -40,10 +40,10 @@ public class EnrolledTrainingDaoImpl implements EnrolledTrainingDao {
 		pst.setInt(2, enrolledTraining.getTrainingId());
 
 		int rows=pst.executeUpdate();
-		
+
 		if(rows <= 0)
 			return false;		
-		
+
 		return true;
 	}
 

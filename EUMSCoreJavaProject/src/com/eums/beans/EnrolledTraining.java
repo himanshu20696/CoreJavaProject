@@ -3,12 +3,12 @@ package com.eums.beans;
 public class EnrolledTraining {
 	private String employeeId;
 	private int trainingId;
-	
+
 	public EnrolledTraining()
 	{
-		
+
 	}
-	
+
 	public EnrolledTraining(String employeeId, int trainingId) {
 		super();
 		this.employeeId = employeeId;

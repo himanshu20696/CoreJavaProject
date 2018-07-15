@@ -33,10 +33,10 @@ public class FeedbackDaoImpl implements FeedbackDao {
 		pst.setInt(8, feedback.getTraineroverall());
 
 		int rows=pst.executeUpdate();
-		
+
 		if(rows <= 0)
 			return false;		
-		
+
 		return true;
 	}
 
@@ -49,7 +49,7 @@ public class FeedbackDaoImpl implements FeedbackDao {
 		ResultSet rs = stmt.executeQuery("select * from feedback where training_id="+trainingId);
 		Feedback feedback=null;
 		List<Feedback> fblist = new ArrayList<>();
-		
+
 		while(rs.next()){
 			String eid=rs.getString(1);
 			int tid=rs.getInt(2);
@@ -94,7 +94,7 @@ public class FeedbackDaoImpl implements FeedbackDao {
 				+ "requested_training inner join training_details on  "
 				+ "requested_training.training_id=training_details.tid"
 				+ "where requested_training.user_id="+employeeID+"and "+dateFormat.format(date)+">training_details.enddate and "
-						+ "requested_training.notified=false");
+				+ "requested_training.notified=false");
 		while(rs.next()){
 			hashmap.put(rs.getInt(1),rs.getString(2));
 			stmt.executeQuery("Update requested_training set notified=true "

@@ -11,6 +11,11 @@ public class Employee {
 	private String employeeTeam;
 	private String employeeAddress;
 	private String employeeContactNo;
+
+	public Employee() {
+
+	}
+
 	public Employee(String employeeID, String employeeName, String employeeEmail, String employeePassword,
 			String employeeType, String employeeTeam, String employeeAddress, String employeeContactNo) {
 		super();
@@ -23,6 +28,7 @@ public class Employee {
 		this.employeeAddress = employeeAddress;
 		this.employeeContactNo = employeeContactNo;
 	}
+
 	public String getEmployeeID() {
 		return employeeID;
 	}
@@ -71,14 +77,11 @@ public class Employee {
 	public void setEmployeeContactNo(String employeeContactNo) {
 		this.employeeContactNo = employeeContactNo;
 	}
+
 	@Override
 	public String toString() {
 		return "Employee [employeeID=" + employeeID + ", employeeName=" + employeeName + ", employeeEmail="
 				+ employeeEmail + ", employeeTeam=" + employeeTeam + ", employeeAddress=" + employeeAddress
 				+ ", employeeContactNo=" + employeeContactNo + "]";
-	}
-	
-	
-	
-	
+	}	
 }

@@ -10,9 +10,9 @@ public class Training {
 	private int maxcapacity;
 	private int availablecapacity;
 	private boolean mandatory;
-	
+
 	public Training() {
-		
+
 	}
 
 	public Training(int tid, String tname, String ttype, String trainername, String sdate, String edate,
@@ -107,5 +107,5 @@ public class Training {
 				+ ", sdate=" + sdate + ", edate=" + edate + ", maxcapacity=" + maxcapacity + ", availablecapacity="
 				+ availablecapacity + ", mandatory=" + mandatory + "]";
 	}
-	
+
 }

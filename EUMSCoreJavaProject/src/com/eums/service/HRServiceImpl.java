@@ -28,7 +28,7 @@ public class HRServiceImpl implements HRService {
 	private RequestedTrainingDao requestedTrainingDao = new RequestedTrainingDaoImpl();
 	private EnrolledTrainingDao enrolledTrainingDao = new EnrolledTrainingDaoImpl();
 	private EmployeeDao employeeDao = new EmployeeDaoImpl();
-	
+
 	@Override
 	public boolean createTrainingInCalender(Training training) {
 		// TODO Auto-generated method stub
@@ -39,7 +39,7 @@ public class HRServiceImpl implements HRService {
 	public boolean modifyTrainingInCalender(int trainingId, Training newTraining) throws SQLException {
 		return trainingDao.updateRecord(trainingId, newTraining);
 	}
-	
+
 	@Override
 	public ArrayList<Employee> viewEmployeeEnrolledForTraining(int trainingId) throws SQLException {
 		ArrayList<Employee> employeeList = new ArrayList<>();
@@ -63,30 +63,30 @@ public class HRServiceImpl implements HRService {
 	@Override
 	public boolean approveEnrollmentOfTraining(String employeeId, int trainingId) throws SQLException {
 		//call listpendingrecords for display from presentation layer
-				List<RequestedTraining> requestedTraining = new ArrayList<RequestedTraining>();
-				Training training = new Training();
-				training = trainingDao.searchRecord(trainingId);
-				requestedTraining=requestedTrainingDao.listPendingRecords();
-				Boolean update=false;
-				for(RequestedTraining r : requestedTraining)
-				{
-					if(Date.valueOf(r.getDateWithTime()).before(Date.valueOf(training.getSdate())) &&  
-							training.getAvailablecapacity()<training.getMaxcapacity())
-					{
-						r.setAccepted(true);
-						EnrolledTraining enrolledTraining = new EnrolledTraining(r.getEid(),r.getTid());
-						enrolledTrainingDao.insertRecord(enrolledTraining);
-					}
-					r.setProcessed(true);
-					update=requestedTrainingDao.updateRecord(trainingId, employeeId, r);
-				}
-				//Display records from requested_training
-				return true;
+		List<RequestedTraining> requestedTraining = new ArrayList<RequestedTraining>();
+		Training training = new Training();
+		training = trainingDao.searchRecord(trainingId);
+		requestedTraining=requestedTrainingDao.listPendingRecords();
+		Boolean update=false;
+		for(RequestedTraining r : requestedTraining)
+		{
+			if(Date.valueOf(r.getDateWithTime()).before(Date.valueOf(training.getSdate())) &&  
+					training.getAvailablecapacity()<training.getMaxcapacity())
+			{
+				r.setAccepted(true);
+				EnrolledTraining enrolledTraining = new EnrolledTraining(r.getEid(),r.getTid());
+				enrolledTrainingDao.insertRecord(enrolledTraining);
+			}
+			r.setProcessed(true);
+			update=requestedTrainingDao.updateRecord(trainingId, employeeId, r);
+		}
+		//Display records from requested_training
+		return true;
 	}
 
 	@Override
 	public List<Feedback> viewTrainingFeedbackDetailed(int trainingId) throws SQLException {
-	
+
 		return feedbackDao.listDetailedFeedback(trainingId);
 	}
 

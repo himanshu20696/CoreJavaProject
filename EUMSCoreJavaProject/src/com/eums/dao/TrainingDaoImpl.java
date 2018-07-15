@@ -22,7 +22,7 @@ public class TrainingDaoImpl implements TrainingDao {
 		stmt=con.createStatement();
 		ResultSet rs = stmt.executeQuery("select * from training_details");
 		Training training=null;
-		
+
 		while(rs.next()){
 			int tid = rs.getInt("tid");
 			String tname = rs.getString("tname");
@@ -36,7 +36,7 @@ public class TrainingDaoImpl implements TrainingDao {
 			training = new Training(tid, tname, ttype, trainerName, startDate, endDate, maxCapacity, availableCapacity, mandatory);
 			trainingDetails.add(training);
 		}
-		
+
 		return trainingDetails;
 	}
 
@@ -48,7 +48,7 @@ public class TrainingDaoImpl implements TrainingDao {
 		stmt=con.createStatement();
 		ResultSet rs = stmt.executeQuery("select * from training_details where tid="+tId);
 		Training training=null;
-		
+
 		while(rs.next()){
 			int tid = rs.getInt("tid");
 			String tname = rs.getString("tname");
@@ -84,7 +84,7 @@ public class TrainingDaoImpl implements TrainingDao {
 		int rows=pst.executeUpdate();
 		if(rows <= 0)
 			return false;
-		
+
 		return true;
 	}
 
@@ -97,7 +97,7 @@ public class TrainingDaoImpl implements TrainingDao {
 		int rows = stmt.executeUpdate("delete from training_details where tid="+tId);
 		if(rows <= 0)
 			return false;
-		
+
 		return true;
 	}
 
@@ -128,7 +128,7 @@ public class TrainingDaoImpl implements TrainingDao {
 		int rows = pst.executeUpdate();
 		if(rows <= 0)
 			return false;
-		
+
 		return true;
 	}
 

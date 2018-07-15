@@ -30,7 +30,7 @@ public class RequestedTrainingDaoImpl implements RequestedTrainingDao {
 		int rows=pst.executeUpdate();
 		if(rows <= 0)
 			return false;
-		
+
 		return true;
 	}
 
@@ -43,7 +43,7 @@ public class RequestedTrainingDaoImpl implements RequestedTrainingDao {
 		stmt=con.createStatement();
 		ResultSet rs = stmt.executeQuery("select * from requested_training");
 		RequestedTraining requestedTraining=null;
-		
+
 		while(rs.next()){
 			int tid = rs.getInt("user__id");
 			String eid = rs.getString("training__id");
@@ -54,7 +54,7 @@ public class RequestedTrainingDaoImpl implements RequestedTrainingDao {
 			requestedTraining = new RequestedTraining(eid, tid, enrolledTime, accepted, notified, processed);
 			requestedTrainingDetails.add(requestedTraining);
 		}
-		
+
 		return requestedTrainingDetails;
 	}
 
@@ -74,7 +74,7 @@ public class RequestedTrainingDaoImpl implements RequestedTrainingDao {
 		int rows = pst.executeUpdate();
 		if(rows <= 0)
 			return false;
-		
+
 		return true;
 	}
 
@@ -87,7 +87,7 @@ public class RequestedTrainingDaoImpl implements RequestedTrainingDao {
 		stmt=con.createStatement();
 		ResultSet rs = stmt.executeQuery("select * from requested_training where processed=false");
 		RequestedTraining requestedTraining=null;
-		
+
 		while(rs.next()){
 			int tid = rs.getInt("user__id");
 			String eid = rs.getString("training__id");
@@ -98,7 +98,7 @@ public class RequestedTrainingDaoImpl implements RequestedTrainingDao {
 			requestedTraining = new RequestedTraining(eid, tid, enrolledTime, accepted, notified,processed);
 			requestedTrainingDetails.add(requestedTraining);
 		}
-		
+
 		return requestedTrainingDetails;
 	}
 

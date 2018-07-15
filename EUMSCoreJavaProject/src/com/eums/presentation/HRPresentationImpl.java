@@ -22,7 +22,7 @@ public class HRPresentationImpl implements HRPresentation {
 		System.out.println("4. Approve enrollments for trainings.");
 		System.out.println("5. View Feedback.");
 		System.out.println("6. log out.");
-		
+
 		System.out.println("Enter your choice :- ");
 		int choice=sc.nextInt();
 		actionPerformed(choice);
@@ -33,13 +33,13 @@ public class HRPresentationImpl implements HRPresentation {
 		switch(choice)
 		{
 		case 1:
-			
+
 			Training training=inputDetails.inputTrainingDetails();
-				boolean status=hrService.createTrainingInCalender(training);
-				if(status)
-					System.out.println("Training Successfully Created");
-				else
-					System.out.println("Cannot be created");
+			boolean status=hrService.createTrainingInCalender(training);
+			if(status)
+				System.out.println("Training Successfully Created");
+			else
+				System.out.println("Cannot be created");
 			break;
 		case 2:
 			System.out.println("Update details here!!");
@@ -55,18 +55,18 @@ public class HRPresentationImpl implements HRPresentation {
 			}
 			break;
 		case 3:
-		System.out.println("Enter the training Id for which you want to see enrolled emplyees :-");
-		int trainingId=sc.nextInt();
-		ArrayList<Employee> employeeList=new ArrayList<>();
+			System.out.println("Enter the training Id for which you want to see enrolled emplyees :-");
+			int trainingId=sc.nextInt();
+			ArrayList<Employee> employeeList=new ArrayList<>();
 			try {
 				employeeList=hrService.viewEmployeeEnrolledForTraining(trainingId);
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-		System.out.println("Employees enrolled for "+trainingId+" are ");
-		System.out.println(employeeList);
-		
-		break;
+			System.out.println("Employees enrolled for "+trainingId+" are ");
+			System.out.println(employeeList);
+
+			break;
 		case 4:
 			System.out.println("Enter the training Id :-");
 			int tId=sc.nextInt();
@@ -109,14 +109,14 @@ public class HRPresentationImpl implements HRPresentation {
 			{
 				System.out.println("Invalid Input...");
 			}
-			
+
 			break;
 		case 6:
 			//log out
 			break;
 		default:System.out.println("Invald Input");
 		}
-		
+
 		showHRMenu();
 	}
 

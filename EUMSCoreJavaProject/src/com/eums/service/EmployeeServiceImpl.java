@@ -26,17 +26,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private RequestedTrainingDao requestedTrainingDao = new RequestedTrainingDaoImpl();
 	private TrainingDao trainingDao = new TrainingDaoImpl();
 	private EnrolledTrainingDao enrolledTrainingDao = new EnrolledTrainingDaoImpl();
-	
+
 	@Override
 	public ArrayList<Training> viewUpcommingTraining() throws SQLException {
 		ArrayList<Training> allTraining=new ArrayList<>();
 		allTraining=(ArrayList<Training>) trainingDao.listAllRecords();
 		ArrayList<Training> list=new ArrayList<>();
-		
+
 		long millis=System.currentTimeMillis();  
 		java.sql.Date date=new java.sql.Date(millis);  
- 
-		
+
+
 		for(Training training:allTraining)
 		{
 			if(date.after(java.sql.Date.valueOf(training.getSdate())))
@@ -160,7 +160,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			Training training=trainingDao.searchRecord(trainingId);
 			trainingList.add(training);
 		}
-		
+
 		return trainingList;
 	}
 

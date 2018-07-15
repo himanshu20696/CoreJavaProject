@@ -9,7 +9,7 @@ import com.eums.dao.EmployeeDaoImpl;
 public class LoginAuthenticationServiceImpl implements LoginAuthenticationService {
 
 	EmployeeDao employeeDao = new EmployeeDaoImpl();
-	
+
 	@Override
 	public String authenticateEmployee(String employeeId, String password) throws SQLException {
 		Employee employee = employeeDao.searchRecord(employeeId);

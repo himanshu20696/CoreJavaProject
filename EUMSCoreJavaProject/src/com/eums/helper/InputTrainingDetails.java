@@ -5,7 +5,7 @@ import java.util.Scanner;
 import com.eums.beans.Training;
 
 public class InputTrainingDetails {
-Scanner sc=new Scanner(System.in);
+	Scanner sc=new Scanner(System.in);
 
 	public Training inputTrainingDetails(){
 		System.out.println("Enter training Id ");

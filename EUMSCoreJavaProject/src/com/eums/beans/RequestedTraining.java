@@ -7,9 +7,9 @@ public class RequestedTraining {
 	private boolean accepted;
 	private boolean notified;
 	private boolean processed;
-	
+
 	public RequestedTraining() {
-		
+
 	}
 
 	public RequestedTraining(String eid, int tid, String dateWithTime, boolean accepted, boolean notified, boolean processed) {
@@ -75,6 +75,6 @@ public class RequestedTraining {
 		return "RequestedTraining [eid=" + eid + ", tid=" + tid + ", dateWithTime=" + dateWithTime + ", accepted="
 				+ accepted + ", notified=" + notified + ", processed=" + processed + "]";
 	}
-	
-	
+
+
 }

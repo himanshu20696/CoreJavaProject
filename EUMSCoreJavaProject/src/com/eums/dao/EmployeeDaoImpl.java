@@ -46,7 +46,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		stmt=con.createStatement();
 		ResultSet rs = stmt.executeQuery("select * from employee_details where eid="+employeeId);
 		Employee employee=null;
-		
+
 		while(rs.next()){
 			String employeeName=rs.getString(2);
 			String employeeEmail=rs.getString(3);
@@ -77,10 +77,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		pst.setString(8, employee.getEmployeeContactNo());
 
 		int rows=pst.executeUpdate();
-		
+
 		if(rows <= 0)
 			return false;		
-		
+
 		return true;
 	}
 
@@ -93,7 +93,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		int rows = stmt.executeUpdate("delete from employee_details where eid="+employeeId);
 		if(rows <= 0)
 			return false;
-		
+
 		return true;
 	}
 
@@ -123,7 +123,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		int rows = pst.executeUpdate();
 		if(rows <= 0)
 			return false;
-		
+
 		return true;
 	}
 
