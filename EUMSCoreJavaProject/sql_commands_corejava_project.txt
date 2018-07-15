@@ -9,8 +9,7 @@ CREATE DATABASE training
 
 ===============================
 
-CREATE TABLE public.employee_information
-(
+CREATE TABLE public.employee_details
     eid character varying(5),
     eemail character varying(30),
     epassword character varying(30),
@@ -25,7 +24,7 @@ WITH (
     OIDS = FALSE
 );
 
-ALTER TABLE public.employee_information
+ALTER TABLE public.employee_details
     OWNER to postgres;
 
 ===============================
@@ -71,7 +70,7 @@ ALTER TABLE public.requested_training
 
 ALTER TABLE public.requested_training
     ADD CONSTRAINT requested_training_user_fkey FOREIGN KEY (user__id)
-    REFERENCES public.employee_information (eid) MATCH SIMPLE
+    REFERENCES public.employee_details (eid) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION;
 CREATE INDEX fki_requested_training_user_fkey
@@ -102,7 +101,7 @@ ALTER TABLE public.employee_enrolled_for_training
 
 ALTER TABLE public.employee_enrolled_for_training
     ADD CONSTRAINT user_enrolled_for_training_user_fkey FOREIGN KEY (user__id)
-    REFERENCES public.employee_information (eid) MATCH SIMPLE
+    REFERENCES public.employee_details (eid) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION;
 CREATE INDEX fki_user_enrolled_for_training_user_fkey
@@ -139,7 +138,7 @@ ALTER TABLE public.feedback
 
 ALTER TABLE public.feedback
     ADD CONSTRAINT feedback_user_fkey FOREIGN KEY (user__id)
-    REFERENCES public.employee_information (eid) MATCH SIMPLE
+    REFERENCES public.employee_details (eid) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION;
 CREATE INDEX fki_feedback_user_fkey
@@ -154,3 +153,5 @@ CREATE INDEX fki_feedback_training_fkey
     ON public.feedback(training__id);
 
 ===============================
+
+alter table requested_training add column processed boolean;

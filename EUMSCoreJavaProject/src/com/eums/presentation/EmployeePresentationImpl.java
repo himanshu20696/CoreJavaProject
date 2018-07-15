@@ -4,71 +4,75 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import com.eums.beans.*;
-import com.eums.service.*;
+import com.eums.beans.Feedback;
+import com.eums.beans.Training;
+import com.eums.helper.InputTrainingDetails;
+import com.eums.service.EmployeeService;
+import com.eums.service.EmployeeServiceImpl;
 
 public class EmployeePresentationImpl implements EmployeePresentation {
+	
 	EmployeeService employeeService=new EmployeeServiceImpl();
+	InputTrainingDetails inputTrainingDetails = new InputTrainingDetails();
 	Scanner sc=new Scanner(System.in);
+	
 	@Override
-	public void showEmployeeMenu() {
-		System.out.println("1. Upcomming trainings.");
-		System.out.println("2. Show Enrolled trainings.");
-		System.out.println("3. Fill Feedback. ");
-		System.out.println("4. Log Out.");
-		System.out.println("Choose any one :- ");
-
+	public void showEmployeeMenu(String employeeId) {
+//		try {
+//			employeeService.feedbackDisablement(employeeId);
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+		System.out.println(" Employee MENU");
+		System.out.println("=========");
+		System.out.println("1. View Upcomming Trainings");
+		System.out.println("2. View Enrolled Trainings");
+		System.out.println("3. Fill Feedback For Training");
+		System.out.println("4. Log Out");
+		System.out.println("Choose Any One :- ");
 		int choice=sc.nextInt();
-		actionPerformed(choice);
+		actionPerformed(choice, employeeId);
 	}
 
 	@Override
-	public void actionPerformed(int choice) {
-
+	public void actionPerformed(int choice, String employeeId) {
 		switch(choice)
 		{
 		case 1: try {
-			System.out.println("Enter your Employee Id :- ");
-			String employeeId=sc.next();
 			ArrayList<Training> upcommingTrainingList=new ArrayList<>();
 			upcommingTrainingList=employeeService.viewUpcommingTraining();
 			for(Training list:upcommingTrainingList)
 			{
 				System.out.println(list);
 			}
-			System.out.println("Enter the training id :- ");
-			int trainingId=sc.nextInt();
-			boolean status=employeeService.enrollForTraining(trainingId, employeeId);
-			if(status)
+			System.out.println("Do You Want To Enroll For Any Training (Yes/No)");
+			String enrollChoice = sc.next();
+			if(enrollChoice.equalsIgnoreCase("yes"))
 			{
-				System.out.println("You are enrolled.");
+				System.out.println("Enter Training Id For Which You Wanna Enroll :- ");
+				int trainingId=sc.nextInt();
+				boolean status=employeeService.enrollForTraining(trainingId, employeeId);
+				if(status)
+					System.out.println("Request For Enrollment Has Been Sent To HR. You Will Be Notified Shortly");
+				else
+					System.out.println("Some Problem Please Try Again");
 			}
-			else
-				System.out.println("Enrollment Rejected.");
-
-			break;
+			else if(enrollChoice.equalsIgnoreCase("no"))
+			{
+				showEmployeeMenu(employeeId);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		case 2:ArrayList<Training> enrolledTrainingList=new ArrayList<>();
-		System.out.println("Enter your Employee Id :- ");
-		String employeeId=sc.next();
-		try {
-			enrolledTrainingList=employeeService.viewEnrolledTraining(employeeId);
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		System.out.println("You are enrolled for following trainings");
-		for(Training list:enrolledTrainingList)
-		{
-			System.out.println(list); 
-		}
 		break;
-		case 3:  
-			System.out.println("Enter your Employee Id :- ");
-			String eId=sc.next();
-			System.out.println("Enter Training Id :- ");
+		
+		case 2: 
+			inputTrainingDetails.showEnrolledTrainings(employeeId);
+		break;
+		
+		case 3:
+			inputTrainingDetails.showEnrolledTrainings(employeeId);
+			System.out.println("Enter Training Id For Feedback :- ");
 			int tId=sc.nextInt();
 			System.out.println("Enter Coverage of topics Rating(1-5) :- ");
 			int coverageoftopics=sc.nextInt();
@@ -82,31 +86,29 @@ public class EmployeePresentationImpl implements EmployeePresentation {
 			int courceoverall=(coverageoftopics+effectivenessofcource)/2;
 			int traineroverall=(presentationstyle+paceofdelivery)/2;
 
-			Feedback feedback=new Feedback(eId, tId, coverageoftopics, effectivenessofcource, presentationstyle, paceofdelivery, courceoverall, traineroverall);
+			Feedback feedback=new Feedback(employeeId, tId, coverageoftopics, effectivenessofcource, presentationstyle, paceofdelivery, courceoverall, traineroverall);
 			try {
 				boolean status=employeeService.feedbackFilling(feedback);
 				if(status)
 					System.out.println("Feedback Submitted");
 				else
 					System.out.println("Feedback not submitted");
-				break;
 			} catch (SQLException e) {
-
 				e.printStackTrace();
 			}
+		break;
+		
 		case 4:
-			//login presentation layer
-
-			break;
+			System.out.println("You Have Successfully Logged Out!");
+			LoginPresentation loginPresentation = new LoginPresentationImpl();
+			loginPresentation.login();
+		break;
+		
 		default: 
 			System.out.println("Invalid Input !!!!");
 		}
 
-		showEmployeeMenu();
-
-
-
-
+		showEmployeeMenu(employeeId);
 	}
 
 }

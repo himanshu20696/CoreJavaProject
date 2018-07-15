@@ -9,31 +9,32 @@ import com.eums.beans.Training;
 import com.eums.helper.InputTrainingDetails;
 import com.eums.service.*;
 public class HRPresentationImpl implements HRPresentation {
+	
 	Scanner sc=new Scanner(System.in);
 	HRService hrService=new HRServiceImpl();
 	InputTrainingDetails inputDetails=new InputTrainingDetails();
+	
 	@Override
-	public void showHRMenu() {
+	public void showHRMenu(String employeeId) {
 		System.out.println(" HR MENU");
 		System.out.println("=========");
-		System.out.println("1. Create new training. ");
-		System.out.println("2. Modify existing training.");
-		System.out.println("3. View employees enrolled for training.");
-		System.out.println("4. Approve enrollments for trainings.");
-		System.out.println("5. View Feedback.");
-		System.out.println("6. log out.");
+		System.out.println("1. Create new training");
+		System.out.println("2. Modify existing training");
+		System.out.println("3. View employees enrolled for training");
+		System.out.println("4. Approve enrollments for trainings");
+		System.out.println("5. View Feedback");
+		System.out.println("6. log out");
 
 		System.out.println("Enter your choice :- ");
 		int choice=sc.nextInt();
-		actionPerformed(choice);
+		actionPerformed(choice, employeeId);
 	}
 
 	@Override
-	public void actionPerformed(int choice) {
+	public void actionPerformed(int choice, String employeeId) {
 		switch(choice)
 		{
 		case 1:
-
 			Training training=inputDetails.inputTrainingDetails();
 			boolean status=hrService.createTrainingInCalender(training);
 			if(status)
@@ -41,6 +42,7 @@ public class HRPresentationImpl implements HRPresentation {
 			else
 				System.out.println("Cannot be created");
 			break;
+			
 		case 2:
 			System.out.println("Update details here!!");
 			Training updatedTraining=inputDetails.inputTrainingDetails();
@@ -54,6 +56,7 @@ public class HRPresentationImpl implements HRPresentation {
 				e.printStackTrace();
 			}
 			break;
+			
 		case 3:
 			System.out.println("Enter the training Id for which you want to see enrolled emplyees :-");
 			int trainingId=sc.nextInt();
@@ -67,6 +70,7 @@ public class HRPresentationImpl implements HRPresentation {
 			System.out.println(employeeList);
 
 			break;
+			
 		case 4:
 			System.out.println("Enter the training Id :-");
 			int tId=sc.nextInt();
@@ -82,6 +86,7 @@ public class HRPresentationImpl implements HRPresentation {
 				e.printStackTrace();
 			}
 			break;
+			
 		case 5:
 			System.out.println("Enter the training Id for which you wish to see the feedback :-");
 			int trainId=sc.nextInt();
@@ -111,13 +116,17 @@ public class HRPresentationImpl implements HRPresentation {
 			}
 
 			break;
+			
 		case 6:
-			//log out
+			System.out.println("You Have Successfully Logged Out!");
+			LoginPresentation loginPresentation = new LoginPresentationImpl();
+			loginPresentation.login();
 			break;
+			
 		default:System.out.println("Invald Input");
 		}
 
-		showHRMenu();
+		showHRMenu(employeeId);
 	}
 
 }

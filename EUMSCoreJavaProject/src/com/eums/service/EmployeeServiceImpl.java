@@ -30,7 +30,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public ArrayList<Training> viewUpcommingTraining() throws SQLException {
 		ArrayList<Training> allTraining=new ArrayList<>();
-		allTraining=(ArrayList<Training>) trainingDao.listAllRecords();
+		allTraining = trainingDao.listAllRecords();
 		ArrayList<Training> list=new ArrayList<>();
 
 		long millis=System.currentTimeMillis();  

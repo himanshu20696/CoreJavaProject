@@ -1,0 +1,12 @@
+insert into employee_information values('ym001','ve00ym001@globalymc.com','emp1','EMP','himanshu','9876543210','265 Kotla NDelhi','JAVA');
+insert into employee_information values('ym002','ve00ym002@globalymc.com','emp2','EMP','baweja','9876543211','Preet Vihar Delhi','JAVA');
+insert into employee_information values('ym003','ve00ym003@globalymc.com','emp3','EMP','vivek','9876543212','Escorts Mujesar Faridabad','JAVA');
+insert into employee_information values('ym004','ve00ym004@globalymc.com','emp4','EMP','uniyal','9876543213','Bata Chock Faridabad','MICROSOFT');
+insert into employee_information values('ym005','ve00ym005@globalymc.com','emp5','EMP','shuvam','9876543214','Mayur Vihar 1 Delhi','MICROSOFT');
+insert into employee_information values('ym006','ve00ym006@globalymc.com','emp6','EMP','prakash','9876543215','nirman vihar Delhi','IOT');
+insert into employee_information values('ae001','ae00ym001@globalymc.com','hr1','HR','Deepak','9876543216','Faridabad','HR');
+insert into employee_information values('ae002','ae00ym002@globalymc.com','hr2','HR','Vir','9876543217','Faridabad','HR');
+
+insert into training_details(tname,ttype,trainername,startdate,enddate,maxcapacity,availablecapacity,status,mandatory) values('JAVA Training','Technical','Sujata Batra','2018-07-02','2018-08-13',null,null,'On Going',true);
+insert into training_details(tname,ttype,trainername,startdate,enddate,maxcapacity,availablecapacity,status,mandatory) values('Excel Training','Technical','Someone1','2018-08-03','2018-08-13',5,5,'Open',false);
+insert into training_details(tname,ttype,trainername,startdate,enddate,maxcapacity,availablecapacity,status,mandatory) values('Excel Training','Technical','Someone1','2018-08-03','2018-08-13',5,5,'Open',false);

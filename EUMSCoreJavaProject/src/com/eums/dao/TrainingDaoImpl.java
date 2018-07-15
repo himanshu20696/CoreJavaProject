@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 
 import com.eums.beans.Training;
 import com.eums.helper.DBConnection;
@@ -14,7 +13,7 @@ import com.eums.helper.DBConnection;
 public class TrainingDaoImpl implements TrainingDao {
 
 	@Override
-	public List<Training> listAllRecords() throws SQLException {
+	public ArrayList<Training> listAllRecords() throws SQLException {
 		Connection con=null; 
 		Statement stmt=null;
 		ArrayList<Training> trainingDetails=new ArrayList<>();

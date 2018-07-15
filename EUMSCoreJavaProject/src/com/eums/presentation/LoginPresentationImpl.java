@@ -24,27 +24,28 @@ public class LoginPresentationImpl implements LoginPresentation {
 			String result = loginAuthenticationService.authenticateEmployee(employeeId, password);
 			if(result.equals("Employee Not Found Please Try Again!!"))
 			{
+				System.out.println(result);
 				login();
 			}
 			else if(result.equals("Incorrect Password Please Try Again"))
 			{
+				System.out.println(result);
 				login();
 			}
 			else
 			{
 				System.out.println(result);
-				Thread.sleep(2000);
 				String etype = loginAuthenticationService.checkEmployeeType(employeeId);
 				if(etype.equals("EMP"))
 				{
-					employeePresentation.showEmployeeMenu();
+					employeePresentation.showEmployeeMenu(employeeId);
 				}
 				else
 				{
-					hrPresentation.showHRMenu();
+					hrPresentation.showHRMenu(employeeId);
 				}
 			}
-		} catch (SQLException | InterruptedException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}

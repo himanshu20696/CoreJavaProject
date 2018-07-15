@@ -1,10 +1,16 @@
 package com.eums.helper;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.eums.beans.Training;
+import com.eums.service.EmployeeService;
+import com.eums.service.EmployeeServiceImpl;
 
 public class InputTrainingDetails {
+	
+	EmployeeService employeeService=new EmployeeServiceImpl();
 	Scanner sc=new Scanner(System.in);
 
 	public Training inputTrainingDetails(){
@@ -27,5 +33,20 @@ public class InputTrainingDetails {
 		boolean mandatory=sc.nextBoolean();
 		Training training=new Training(tid, tname, ttype, trainername, sdate, edate, maxcapacity, availablecapacity, mandatory);
 		return training;
+	}
+	
+	public void showEnrolledTrainings(String employeeId)
+	{
+		try {
+		ArrayList<Training> enrolledTrainingList=new ArrayList<>();
+		enrolledTrainingList=employeeService.viewEnrolledTraining(employeeId);
+		System.out.println("You Are Enrolled In Following Trainings : ");
+		for(Training list:enrolledTrainingList)
+		{
+			System.out.println(list); 
+		}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 	}
 }
