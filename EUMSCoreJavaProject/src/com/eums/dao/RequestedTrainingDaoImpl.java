@@ -50,7 +50,8 @@ public class RequestedTrainingDaoImpl implements RequestedTrainingDao {
 			String enrolledTime = rs.getString("enrolledtime");
 			Boolean accepted = rs.getBoolean("accepted");
 			Boolean notified = rs.getBoolean("notified");
-			requestedTraining = new RequestedTraining(eid, tid, enrolledTime, accepted, notified);
+			Boolean processed = rs.getBoolean("processed");
+			requestedTraining = new RequestedTraining(eid, tid, enrolledTime, accepted, notified, processed);
 			requestedTrainingDetails.add(requestedTraining);
 		}
 		
@@ -75,6 +76,30 @@ public class RequestedTrainingDaoImpl implements RequestedTrainingDao {
 			return false;
 		
 		return true;
+	}
+
+	@Override
+	public List<RequestedTraining> listPendingRecords() throws SQLException {
+		Connection con=null; 
+		Statement stmt=null;
+		ArrayList<RequestedTraining> requestedTrainingDetails=new ArrayList<>();
+		con=DBConnection.getDBConnection();
+		stmt=con.createStatement();
+		ResultSet rs = stmt.executeQuery("select * from requested_training where processed=false");
+		RequestedTraining requestedTraining=null;
+		
+		while(rs.next()){
+			int tid = rs.getInt("user__id");
+			String eid = rs.getString("training__id");
+			String enrolledTime = rs.getString("enrolledtime");
+			Boolean accepted = rs.getBoolean("accepted");
+			Boolean notified = rs.getBoolean("notified");
+			Boolean processed = rs.getBoolean("processed");
+			requestedTraining = new RequestedTraining(eid, tid, enrolledTime, accepted, notified,processed);
+			requestedTrainingDetails.add(requestedTraining);
+		}
+		
+		return requestedTrainingDetails;
 	}
 
 }

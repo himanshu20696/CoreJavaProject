@@ -6,18 +6,20 @@ public class RequestedTraining {
 	private String dateWithTime;
 	private boolean accepted;
 	private boolean notified;
+	private boolean processed;
 	
 	public RequestedTraining() {
 		
 	}
 
-	public RequestedTraining(String eid, int tid, String dateWithTime, boolean accepted, boolean notified) {
+	public RequestedTraining(String eid, int tid, String dateWithTime, boolean accepted, boolean notified, boolean processed) {
 		super();
 		this.eid = eid;
 		this.tid = tid;
 		this.dateWithTime = dateWithTime;
 		this.accepted = accepted;
 		this.notified = notified;
+		this.processed = processed;
 	}
 
 	public String getEid() {
@@ -60,10 +62,18 @@ public class RequestedTraining {
 		this.notified = notified;
 	}
 
+	public boolean isProcessed() {
+		return processed;
+	}
+
+	public void setProcessed(boolean processed) {
+		this.processed = processed;
+	}
+
 	@Override
 	public String toString() {
 		return "RequestedTraining [eid=" + eid + ", tid=" + tid + ", dateWithTime=" + dateWithTime + ", accepted="
-				+ accepted + ", notified=" + notified + "]";
+				+ accepted + ", notified=" + notified + ", processed=" + processed + "]";
 	}
 	
 	

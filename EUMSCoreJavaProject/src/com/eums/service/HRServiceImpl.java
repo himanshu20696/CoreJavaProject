@@ -1,5 +1,6 @@
 package com.eums.service;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,23 +61,27 @@ public class HRServiceImpl implements HRService {
 	}
 
 	@Override
-	public boolean approveEnrollmentOfTraining(int employeeId, int trainingId) throws SQLException {
-		List<RequestedTraining> requestedTraining = new ArrayList<RequestedTraining>();
-		requestedTraining=requestedTrainingDao.listAllRecords();
-		Training training = new Training();
-		training = trainingDao.searchRecord(trainingId);
-		for(RequestedTraining r : requestedTraining)
-		{
-			if(!r.isAccepted() && training!=null)
-			{
-//				if(r.getDateWithTime()<training.getSdate() && 
-//						training.getAvailablecapacity()<training.getMaxcapacity())
-//				{
-//					//Enrolled_for_training()
-//				}
-			}
-		}
-		return false;
+	public boolean approveEnrollmentOfTraining(String employeeId, int trainingId) throws SQLException {
+		//call listpendingrecords for display from presentation layer
+				List<RequestedTraining> requestedTraining = new ArrayList<RequestedTraining>();
+				Training training = new Training();
+				training = trainingDao.searchRecord(trainingId);
+				requestedTraining=requestedTrainingDao.listPendingRecords();
+				Boolean update=false;
+				for(RequestedTraining r : requestedTraining)
+				{
+					if(Date.valueOf(r.getDateWithTime()).before(Date.valueOf(training.getSdate())) &&  
+							training.getAvailablecapacity()<training.getMaxcapacity())
+					{
+						r.setAccepted(true);
+						EnrolledTraining enrolledTraining = new EnrolledTraining(r.getEid(),r.getTid());
+						enrolledTrainingDao.insertRecord(enrolledTraining);
+					}
+					r.setProcessed(true);
+					update=requestedTrainingDao.updateRecord(trainingId, employeeId, r);
+				}
+				//Display records from requested_training
+				return true;
 	}
 
 	@Override

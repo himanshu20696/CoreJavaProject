@@ -12,7 +12,7 @@ public interface HRService {
 	boolean createTrainingInCalender(Training training);
 	boolean modifyTrainingInCalender(int trainingId, Training newTraining) throws SQLException;
 	ArrayList<Employee> viewEmployeeEnrolledForTraining(int trainingId) throws SQLException;
-	boolean approveEnrollmentOfTraining(int employeeId, int trainingId) throws SQLException;
+	boolean approveEnrollmentOfTraining(String employeeId, int trainingId) throws SQLException;
 	List<Feedback> viewTrainingFeedbackDetailed(int trainingId) throws SQLException;
 	String viewTrainingFeedbackConsolidated(int trainingId) throws SQLException;
 	

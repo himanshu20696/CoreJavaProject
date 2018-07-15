@@ -7,4 +7,6 @@ import com.eums.beans.EnrolledTraining;
 
 public interface EnrolledTrainingDao {
 	ArrayList<EnrolledTraining> listAllRecords() throws SQLException;
+	boolean insertRecord(EnrolledTraining enrolledTraining) throws SQLException;
+	EnrolledTraining searchRecord(String employeeId) throws SQLException;
 }

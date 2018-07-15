@@ -9,4 +9,5 @@ public interface RequestedTrainingDao {
 	boolean insertRecord(RequestedTraining requestedTraining) throws SQLException;
 	List<RequestedTraining> listAllRecords() throws SQLException;
 	boolean updateRecord(int tId,String eid,RequestedTraining newRequestedTraining) throws SQLException;
+	List<RequestedTraining> listPendingRecords() throws SQLException;
 }
