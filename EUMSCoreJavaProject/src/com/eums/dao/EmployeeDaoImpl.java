@@ -104,13 +104,13 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		PreparedStatement pst=null;
 		con=DBConnection.getDBConnection();
 		pst=con.prepareStatement("update employee_details set "
-				+ "ename=?"
-				+ "eemail=?"
-				+ "epassword=?"
-				+ "etype=?"
-				+ "eteam=?"
-				+ "eaddress=?"
-				+ "econtactno=?"
+				+ "ename=?,"
+				+ "eemail=?,"
+				+ "epassword=?,"
+				+ "etype=?,"
+				+ "eteam=?,"
+				+ "eaddress=?,"
+				+ "econtactno=? "
 				+ "where eid=?");
 		pst.setString(1, newEmployee.getEmployeeName());
 		pst.setString(2, newEmployee.getEmployeeEmail());

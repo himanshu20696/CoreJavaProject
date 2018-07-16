@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.eums.beans.Employee;
 import com.eums.beans.Feedback;
+import com.eums.beans.RequestedTraining;
 import com.eums.beans.Training;
 
 public interface HRService {
@@ -15,5 +16,5 @@ public interface HRService {
 	boolean approveEnrollmentOfTraining(String employeeId, int trainingId) throws SQLException;
 	List<Feedback> viewTrainingFeedbackDetailed(int trainingId) throws SQLException;
 	String viewTrainingFeedbackConsolidated(int trainingId) throws SQLException;
-	
+	ArrayList<RequestedTraining> viewRequestedTraining() throws SQLException;
 }

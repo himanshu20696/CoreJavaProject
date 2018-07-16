@@ -10,6 +10,7 @@ CREATE DATABASE training
 ===============================
 
 CREATE TABLE public.employee_details
+(
     eid character varying(5),
     eemail character varying(30),
     epassword character varying(30),

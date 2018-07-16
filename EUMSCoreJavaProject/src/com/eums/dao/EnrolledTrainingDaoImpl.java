@@ -60,5 +60,21 @@ public class EnrolledTrainingDaoImpl implements EnrolledTrainingDao {
 		}
 		return enrolledTraining;
 	}
+	
+	@Override
+	public ArrayList<Integer> listEmployeeEnrolledTrainingRecords(String employeeId) throws SQLException {
+		Connection con=null; 
+		Statement stmt=null;
+		con=DBConnection.getDBConnection();
+		stmt=con.createStatement();
+		ArrayList<Integer> enrolledTrainingIdList = new ArrayList<>();
+		ResultSet rs = stmt.executeQuery("select training__id from "
+				+ "employee_enrolled_for_training where user__id='"+employeeId+"'");
+		while(rs.next()){
+			int trainingId = rs.getInt(1);
+			enrolledTrainingIdList.add(trainingId);
+		}
+		return enrolledTrainingIdList;
+	}
 
 }

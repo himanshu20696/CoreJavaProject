@@ -2,7 +2,9 @@ package com.eums.presentation;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Scanner;
+import java.util.Set;
 
 import com.eums.beans.Feedback;
 import com.eums.beans.Training;
@@ -18,11 +20,31 @@ public class EmployeePresentationImpl implements EmployeePresentation {
 	
 	@Override
 	public void showEmployeeMenu(String employeeId) {
-//		try {
-//			employeeService.feedbackDisablement(employeeId);
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			employeeService.feedbackDisablement(employeeId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			LinkedHashMap<String, Boolean> notification = new LinkedHashMap<>();
+			notification = employeeService.notificationOfEnrollment(employeeId);
+			Set<String> keys = notification.keySet();
+			for(String trainings:keys)
+			{
+				System.out.print("Your Training Request for "+trainings+" ");
+				if(notification.get(trainings))
+				{
+					System.out.println("Has Been Approved");
+				}
+				else
+				{
+					System.out.println("Has Been Declined");
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		System.out.println(" Employee MENU");
 		System.out.println("=========");
 		System.out.println("1. View Upcomming Trainings");

@@ -5,11 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.eums.beans.Feedback;
@@ -46,7 +42,7 @@ public class FeedbackDaoImpl implements FeedbackDao {
 		Statement stmt=null;
 		con=DBConnection.getDBConnection();
 		stmt=con.createStatement();
-		ResultSet rs = stmt.executeQuery("select * from feedback where training_id="+trainingId);
+		ResultSet rs = stmt.executeQuery("select * from feedback where training__id="+trainingId);
 		Feedback feedback=null;
 		List<Feedback> fblist = new ArrayList<>();
 
@@ -73,7 +69,7 @@ public class FeedbackDaoImpl implements FeedbackDao {
 		con=DBConnection.getDBConnection();
 		stmt=con.createStatement();
 		float cOverall=0.0f,tOverall=0.0f;
-		ResultSet rs = stmt.executeQuery("select AVG(courceoverall),AVG(traineroverall) from feedback where training_id="+trainingId);
+		ResultSet rs = stmt.executeQuery("select AVG(courceoverall),AVG(traineroverall) from feedback where training__id="+trainingId);
 		while(rs.next()){
 			cOverall=rs.getInt(1);
 			tOverall=rs.getInt(2);
@@ -82,39 +78,17 @@ public class FeedbackDaoImpl implements FeedbackDao {
 	}
 
 	@Override
-	public LinkedHashMap<Integer, String> generatePopupList(String employeeID) throws SQLException {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		Date date = new Date();
-		Connection con=null;
-		Statement stmt=null;
-		con=DBConnection.getDBConnection();
-		stmt=con.createStatement();
-		LinkedHashMap<Integer,String> hashmap = new LinkedHashMap<>();
-		ResultSet rs = stmt.executeQuery("select requested_training.training_id, training_details.tname from "
-				+ "requested_training inner join training_details on  "
-				+ "requested_training.training_id=training_details.tid"
-				+ "where requested_training.user_id="+employeeID+"and "+dateFormat.format(date)+">training_details.enddate and "
-				+ "requested_training.notified=false");
-		while(rs.next()){
-			hashmap.put(rs.getInt(1),rs.getString(2));
-			stmt.executeQuery("Update requested_training set notified=true "
-					+ "where training_id="+rs.getInt(1));
-		}
-		return hashmap;
-	}
-
-	@Override
 	public boolean updateRecord(String employeeId, int trainingId, Feedback newFeedback) throws SQLException {
 		Connection con=null; 
 		PreparedStatement pst=null;
 		con=DBConnection.getDBConnection();
 		pst=con.prepareStatement("update feedback set "
-				+ "coverageoftopics=?"
-				+ "effectivenessofcource=?"
-				+ "presentationstyle=?"
-				+ "paceofdelivery=?"
-				+ "courceoverall=?"
-				+ "traineroverall=?"
+				+ "coverageoftopics=?,"
+				+ "effectivenessofcource=?,"
+				+ "presentationstyle=?,"
+				+ "paceofdelivery=?,"
+				+ "courceoverall=?,"
+				+ "traineroverall=? "
 				+ "where user__id=? and training__id=?");
 		pst.setInt(1, newFeedback.getCoverageoftopics());
 		pst.setInt(2, newFeedback.getEffectivenessofcource());
@@ -129,5 +103,19 @@ public class FeedbackDaoImpl implements FeedbackDao {
 			return false;
 		return true;
 	}
-
+	
+	@Override
+	public boolean searchRecord(String employeeId, int trainingId) throws SQLException {
+		Connection con=null; 
+		Statement stmt=null;
+		con=DBConnection.getDBConnection();
+		stmt=con.createStatement();
+		ResultSet rs = stmt.executeQuery("select count(*) from feedback where eid='"+employeeId+"' and tid="+trainingId);
+		
+		if(rs.next())
+		{
+			return true;
+		}
+		return false;
+	}
 }

@@ -1,6 +1,7 @@
 package com.eums.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,8 +28,8 @@ public class TrainingDaoImpl implements TrainingDao {
 			String tname = rs.getString("tname");
 			String ttype = rs.getString("ttype");
 			String trainerName = rs.getString("trainername");
-			String startDate = rs.getString("startdate");
-			String endDate = rs.getString("enddate");
+			Date startDate = rs.getDate("startdate");
+			Date endDate = rs.getDate("enddate");
 			int maxCapacity = rs.getInt("maxcapacity");
 			int availableCapacity = rs.getInt("availablecapacity");
 			boolean mandatory = rs.getBoolean("mandatory");
@@ -53,8 +54,8 @@ public class TrainingDaoImpl implements TrainingDao {
 			String tname = rs.getString("tname");
 			String ttype = rs.getString("ttype");
 			String trainerName = rs.getString("trainername");
-			String startDate = rs.getString("startdate");
-			String endDate = rs.getString("enddate");
+			Date startDate = rs.getDate("startdate");
+			Date endDate = rs.getDate("enddate");
 			int maxCapacity = rs.getInt("maxcapacity");
 			int availableCapacity = rs.getInt("availablecapacity");
 			boolean mandatory = rs.getBoolean("mandatory");
@@ -74,8 +75,8 @@ public class TrainingDaoImpl implements TrainingDao {
 		pst.setString(1, training.getTname());
 		pst.setString(2, training.getTtype());
 		pst.setString(3, training.getTrainername());
-		pst.setString(4, training.getSdate());
-		pst.setString(5, training.getEdate());
+		pst.setDate(4, training.getSdate());
+		pst.setDate(5, training.getEdate());
 		pst.setInt(6, training.getMaxcapacity());
 		pst.setInt(7, training.getAvailablecapacity());
 		pst.setBoolean(8, training.isMandatory());
@@ -106,20 +107,20 @@ public class TrainingDaoImpl implements TrainingDao {
 		PreparedStatement pst=null;
 		con=DBConnection.getDBConnection();
 		pst=con.prepareStatement("update training_details set "
-				+ "tname=?"
-				+ "ttype=?"
-				+ "trainername=?"
-				+ "startdate=?"
-				+ "enddate=?"
-				+ "maxcapacity=?"
-				+ "availablecapacity=?"
-				+ "mandatory=?"
+				+ "tname=?,"
+				+ "ttype=?,"
+				+ "trainername=?,"
+				+ "startdate=?,"
+				+ "enddate=?,"
+				+ "maxcapacity=?,"
+				+ "availablecapacity=?,"
+				+ "mandatory=? "
 				+ "where tid=?");
 		pst.setString(1, newTraining.getTname());
 		pst.setString(2, newTraining.getTtype());
 		pst.setString(3, newTraining.getTrainername());
-		pst.setString(4, newTraining.getSdate());
-		pst.setString(5, newTraining.getEdate());
+		pst.setDate(4, newTraining.getSdate());
+		pst.setDate(5, newTraining.getEdate());
 		pst.setInt(6, newTraining.getMaxcapacity());
 		pst.setInt(7, newTraining.getAvailablecapacity());
 		pst.setBoolean(8, newTraining.isMandatory());

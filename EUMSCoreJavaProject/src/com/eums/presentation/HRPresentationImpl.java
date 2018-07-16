@@ -72,7 +72,12 @@ public class HRPresentationImpl implements HRPresentation {
 			break;
 			
 		case 4:
-			System.out.println("Enter the training Id :-");
+			try {
+				System.out.println(hrService.viewRequestedTraining());
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			System.out.println("Enter training Id :-");
 			int tId=sc.nextInt();
 			System.out.println("Enter employee Id :-");
 			String eId=sc.next();

@@ -1,5 +1,6 @@
 package com.eums.helper;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -16,22 +17,25 @@ public class InputTrainingDetails {
 	public Training inputTrainingDetails(){
 		System.out.println("Enter training Id ");
 		int tid=sc.nextInt();
+		sc.nextLine();
 		System.out.println("Enter training Name ");
-		String tname=sc.next();
+		String tname=sc.nextLine();
 		System.out.println("Enter trainering Type ");
-		String ttype=sc.next();
+		String ttype=sc.nextLine();
 		System.out.println("Enter trainer's Name ");
-		String trainername=sc.next();
+		String trainername=sc.nextLine();
 		System.out.println("Starting Date (yyyy-mm-dd) ");
-		String sdate=sc.next();
+		String sdate=sc.nextLine();
 		System.out.println("End Date (yyyy-mm-dd) ");
-		String edate=sc.next();
+		String edate=sc.nextLine();
 		System.out.println("Maximum capacity of training");
 		int maxcapacity=sc.nextInt();
+		sc.nextLine();
 		int availablecapacity=maxcapacity;
 		System.out.println("Is Training Mandatory (true/false)");
 		boolean mandatory=sc.nextBoolean();
-		Training training=new Training(tid, tname, ttype, trainername, sdate, edate, maxcapacity, availablecapacity, mandatory);
+		sc.nextLine();
+		Training training=new Training(tid, tname, ttype, trainername, Date.valueOf(sdate), Date.valueOf(edate), maxcapacity, availablecapacity, mandatory);
 		return training;
 	}
 	

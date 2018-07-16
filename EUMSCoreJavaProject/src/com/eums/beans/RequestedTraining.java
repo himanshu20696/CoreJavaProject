@@ -1,9 +1,11 @@
 package com.eums.beans;
 
+import java.sql.Timestamp;
+
 public class RequestedTraining {
 	private String eid;
 	private int tid;
-	private String dateWithTime;
+	private Timestamp dateWithTime;
 	private boolean accepted;
 	private boolean notified;
 	private boolean processed;
@@ -12,7 +14,7 @@ public class RequestedTraining {
 
 	}
 
-	public RequestedTraining(String eid, int tid, String dateWithTime, boolean accepted, boolean notified, boolean processed) {
+	public RequestedTraining(String eid, int tid, Timestamp dateWithTime, boolean accepted, boolean notified, boolean processed) {
 		super();
 		this.eid = eid;
 		this.tid = tid;
@@ -38,11 +40,11 @@ public class RequestedTraining {
 		this.tid = tid;
 	}
 
-	public String getDateWithTime() {
+	public Timestamp getDateWithTime() {
 		return dateWithTime;
 	}
 
-	public void setDateWithTime(String dateWithTime) {
+	public void setDateWithTime(Timestamp dateWithTime) {
 		this.dateWithTime = dateWithTime;
 	}
 

@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,13 +20,14 @@ public class RequestedTrainingDaoImpl implements RequestedTrainingDao {
 		PreparedStatement pst=null;
 		con=DBConnection.getDBConnection();
 		pst=con.prepareStatement("insert into requested_training"
-				+ "(user__id,training__id,enrolledtime,accepted,notified) "
-				+ "values(?,?,?,?,?)");
+				+ "(user__id,training__id,enrolledtime,accepted,notified,processed) "
+				+ "values(?,?,?,?,?,?)");
 		pst.setString(1, requestedTraining.getEid());
 		pst.setInt(2, requestedTraining.getTid());
-		pst.setString(3, requestedTraining.getDateWithTime());
+		pst.setTimestamp(3, requestedTraining.getDateWithTime());
 		pst.setBoolean(4, requestedTraining.isAccepted());
 		pst.setBoolean(5, requestedTraining.isNotified());
+		pst.setBoolean(6, requestedTraining.isProcessed());
 
 		int rows=pst.executeUpdate();
 		if(rows <= 0)
@@ -45,9 +47,9 @@ public class RequestedTrainingDaoImpl implements RequestedTrainingDao {
 		RequestedTraining requestedTraining=null;
 
 		while(rs.next()){
-			int tid = rs.getInt("user__id");
-			String eid = rs.getString("training__id");
-			String enrolledTime = rs.getString("enrolledtime");
+			int tid = rs.getInt("training__id");
+			String eid = rs.getString("user__id");
+			Timestamp enrolledTime = rs.getTimestamp("enrolledtime");
 			Boolean accepted = rs.getBoolean("accepted");
 			Boolean notified = rs.getBoolean("notified");
 			Boolean processed = rs.getBoolean("processed");
@@ -63,14 +65,16 @@ public class RequestedTrainingDaoImpl implements RequestedTrainingDao {
 		Connection con=null; 
 		PreparedStatement pst=null;
 		con=DBConnection.getDBConnection();
-		pst=con.prepareStatement("update training_details set "
-				+ "accepted=?"
-				+ "notified=?"
-				+ "where tid=? and eid=?");
+		pst=con.prepareStatement("update requested_training set "
+				+ "accepted=?,"
+				+ "notified=?,"
+				+ "processed=? "
+				+ "where training__id=? and user__id=?");
 		pst.setBoolean(1, newRequestedTraining.isAccepted());
 		pst.setBoolean(2, newRequestedTraining.isNotified());
-		pst.setInt(3, tId);
-		pst.setString(4, eid);
+		pst.setBoolean(3, newRequestedTraining.isProcessed());
+		pst.setInt(4, tId);
+		pst.setString(5, eid);
 		int rows = pst.executeUpdate();
 		if(rows <= 0)
 			return false;
@@ -79,7 +83,7 @@ public class RequestedTrainingDaoImpl implements RequestedTrainingDao {
 	}
 
 	@Override
-	public List<RequestedTraining> listPendingRecords() throws SQLException {
+	public ArrayList<RequestedTraining> listPendingRecords() throws SQLException {
 		Connection con=null; 
 		Statement stmt=null;
 		ArrayList<RequestedTraining> requestedTrainingDetails=new ArrayList<>();
@@ -89,9 +93,9 @@ public class RequestedTrainingDaoImpl implements RequestedTrainingDao {
 		RequestedTraining requestedTraining=null;
 
 		while(rs.next()){
-			int tid = rs.getInt("user__id");
-			String eid = rs.getString("training__id");
-			String enrolledTime = rs.getString("enrolledtime");
+			int tid = rs.getInt("training__id");
+			String eid = rs.getString("user__id");
+			Timestamp enrolledTime = rs.getTimestamp("enrolledtime");
 			Boolean accepted = rs.getBoolean("accepted");
 			Boolean notified = rs.getBoolean("notified");
 			Boolean processed = rs.getBoolean("processed");

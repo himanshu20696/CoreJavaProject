@@ -1,6 +1,5 @@
 package com.eums.service;
 
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,24 +63,32 @@ public class HRServiceImpl implements HRService {
 	public boolean approveEnrollmentOfTraining(String employeeId, int trainingId) throws SQLException {
 		//call listpendingrecords for display from presentation layer
 		List<RequestedTraining> requestedTraining = new ArrayList<RequestedTraining>();
-		Training training = new Training();
-		training = trainingDao.searchRecord(trainingId);
+		//Training training = new Training();
+		Training training = trainingDao.searchRecord(trainingId);
 		requestedTraining=requestedTrainingDao.listPendingRecords();
 		Boolean update=false;
 		for(RequestedTraining r : requestedTraining)
 		{
-			if(Date.valueOf(r.getDateWithTime()).before(Date.valueOf(training.getSdate())) &&  
-					training.getAvailablecapacity()<training.getMaxcapacity())
+			if(training.getAvailablecapacity() > 0)
 			{
 				r.setAccepted(true);
 				EnrolledTraining enrolledTraining = new EnrolledTraining(r.getEid(),r.getTid());
 				enrolledTrainingDao.insertRecord(enrolledTraining);
+				training.setAvailablecapacity(training.getAvailablecapacity()-1);
+				trainingDao.updateRecord(training.getTid(), training);
+				update = true;
+			}
+			else
+			{
+				r.setAccepted(false);
+				update = false;
 			}
 			r.setProcessed(true);
-			update=requestedTrainingDao.updateRecord(trainingId, employeeId, r);
+			r.setNotified(r.isNotified());
+			requestedTrainingDao.updateRecord(trainingId, employeeId, r);
 		}
 		//Display records from requested_training
-		return true;
+		return update;
 	}
 
 	@Override
@@ -94,6 +101,11 @@ public class HRServiceImpl implements HRService {
 	public String viewTrainingFeedbackConsolidated(int trainingId) throws SQLException {
 		// TODO Auto-generated method stub
 		return feedbackDao.listConsolidatedFeedback(trainingId);
+	}
+
+	@Override
+	public ArrayList<RequestedTraining> viewRequestedTraining() throws SQLException {
+		return requestedTrainingDao.listPendingRecords();
 	}
 
 }

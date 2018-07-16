@@ -1,12 +1,14 @@
 package com.eums.beans;
 
+import java.sql.Date;
+
 public class Training {
 	private int tid;
 	private String tname;
 	private String ttype;
 	private String trainername;
-	private String sdate;
-	private String edate;
+	private Date sdate;
+	private Date edate;
 	private int maxcapacity;
 	private int availablecapacity;
 	private boolean mandatory;
@@ -15,7 +17,7 @@ public class Training {
 
 	}
 
-	public Training(int tid, String tname, String ttype, String trainername, String sdate, String edate,
+	public Training(int tid, String tname, String ttype, String trainername, Date sdate, Date edate,
 			int maxcapacity, int availablecapacity, boolean mandatory) {
 		super();
 		this.tid = tid;
@@ -61,19 +63,19 @@ public class Training {
 		this.trainername = trainername;
 	}
 
-	public String getSdate() {
+	public Date getSdate() {
 		return sdate;
 	}
 
-	public void setSdate(String sdate) {
+	public void setSdate(Date sdate) {
 		this.sdate = sdate;
 	}
 
-	public String getEdate() {
+	public Date getEdate() {
 		return edate;
 	}
 
-	public void setEdate(String edate) {
+	public void setEdate(Date edate) {
 		this.edate = edate;
 	}
 
