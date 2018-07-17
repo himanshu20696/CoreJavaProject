@@ -20,27 +20,36 @@ public class InputTrainingDetails {
 	Scanner sc=new Scanner(System.in);
 
 	public Training inputTrainingDetails(){
-		System.out.println("Enter training Id ");
-		int tid=sc.nextInt();
-		sc.nextLine();
-		System.out.println("Enter training Name ");
+		Integer availablecapacity = null,maxcapacity = null;
+		System.out.println("Enter training Name");
 		String tname=sc.nextLine();
-		System.out.println("Enter trainering Type ");
+		System.out.println("Enter trainering Type (Technical/HR/QMS)");
 		String ttype=sc.nextLine();
-		System.out.println("Enter trainer's Name ");
+		System.out.println("Enter trainer's Name");
 		String trainername=sc.nextLine();
-		System.out.println("Starting Date (yyyy-mm-dd) ");
+		System.out.println("Starting Date (yyyy-mm-dd)");
 		String sdate=sc.nextLine();
-		System.out.println("End Date (yyyy-mm-dd) ");
+		System.out.println("End Date (yyyy-mm-dd)");
 		String edate=sc.nextLine();
-		System.out.println("Maximum capacity of training");
-		int maxcapacity=sc.nextInt();
-		sc.nextLine();
-		int availablecapacity=maxcapacity;
 		System.out.println("Is Training Mandatory (true/false)");
 		boolean mandatory=sc.nextBoolean();
 		sc.nextLine();
-		Training training=new Training(tid, tname, ttype, trainername, Date.valueOf(sdate), Date.valueOf(edate), maxcapacity, availablecapacity, mandatory);
+		if(mandatory == false)
+		{
+			System.out.println("Maximum capacity of training");
+			maxcapacity=sc.nextInt();
+			sc.nextLine();
+			availablecapacity=maxcapacity;
+		}
+		Training training=new Training();
+		training.setTname(tname);
+		training.setTtype(ttype);
+		training.setTrainername(trainername);
+		training.setSdate(Date.valueOf(sdate));
+		training.setEdate(Date.valueOf(edate));
+		training.setMaxcapacity(maxcapacity);
+		training.setAvailablecapacity(availablecapacity);
+		training.setMandatory(mandatory);
 		return training;
 	}
 	
@@ -113,5 +122,15 @@ public class InputTrainingDetails {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public boolean checkIfEmployeeEnrolledTraining(String employeeId)
+	{
+		try {
+			return employeeService.checkIfEmployeeEnrolledToAnyTraining(employeeId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 }

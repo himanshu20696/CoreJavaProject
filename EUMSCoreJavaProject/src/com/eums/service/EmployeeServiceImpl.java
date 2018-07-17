@@ -202,5 +202,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 		return trainingList;
 	}
-
+	
+	@Override
+	public boolean checkIfEmployeeEnrolledToAnyTraining(String employeeId) throws SQLException
+	{
+		ArrayList<Integer> employeeEnrolled = new ArrayList<>();
+		employeeEnrolled = enrolledTrainingDao.listEmployeeEnrolledTrainingRecords(employeeId);
+		if(employeeEnrolled.isEmpty())
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
 }

@@ -74,35 +74,51 @@ public class EmployeePresentationImpl implements EmployeePresentation {
 		}
 		break;
 		
-		case 2: 
-			inputTrainingDetails.showEnrolledTrainings(employeeId);
+		case 2:
+			boolean result = inputTrainingDetails.checkIfEmployeeEnrolledTraining(employeeId);
+			if(result)
+			{
+				inputTrainingDetails.showEnrolledTrainings(employeeId);
+			}
+			else
+			{
+				System.out.println("Employee Is Not Enrolled in Any Training");
+			}
 		break;
 		
 		case 3:
-			inputTrainingDetails.showEnrolledTrainings(employeeId);
-			System.out.println("Enter Training Id For Feedback :- ");
-			int tId=sc.nextInt();
-			System.out.println("Enter Coverage of topics Rating(1-5) :- ");
-			int coverageoftopics=sc.nextInt();
-			System.out.println("Enter Effectiveness of topics Rating(1-5) :- ");
-			int effectivenessofcource=sc.nextInt();
-			System.out.println("Enter Presentation Style Rating(1-5) :- ");
-			int presentationstyle=sc.nextInt();
-			System.out.println("Enter Pace of delivery of topics Rating(1-5) :- ");
-			int paceofdelivery=sc.nextInt();
+			boolean result2 = inputTrainingDetails.checkIfEmployeeEnrolledTraining(employeeId);
+			if(result2)
+			{
+				inputTrainingDetails.showEnrolledTrainings(employeeId);
+				System.out.println("Enter Training Id For Feedback :- ");
+				int tId=sc.nextInt();
+				System.out.println("Enter Coverage of topics Rating(1-5) :- ");
+				int coverageoftopics=sc.nextInt();
+				System.out.println("Enter Effectiveness of topics Rating(1-5) :- ");
+				int effectivenessofcource=sc.nextInt();
+				System.out.println("Enter Presentation Style Rating(1-5) :- ");
+				int presentationstyle=sc.nextInt();
+				System.out.println("Enter Pace of delivery of topics Rating(1-5) :- ");
+				int paceofdelivery=sc.nextInt();
 
-			int courceoverall=(coverageoftopics+effectivenessofcource)/2;
-			int traineroverall=(presentationstyle+paceofdelivery)/2;
+				int courceoverall=(coverageoftopics+effectivenessofcource)/2;
+				int traineroverall=(presentationstyle+paceofdelivery)/2;
 
-			Feedback feedback=new Feedback(employeeId, tId, coverageoftopics, effectivenessofcource, presentationstyle, paceofdelivery, courceoverall, traineroverall);
-			try {
-				boolean status=employeeService.feedbackFilling(feedback);
-				if(status)
-					System.out.println("Feedback Submitted");
-				else
-					System.out.println("Feedback not submitted");
-			} catch (SQLException e) {
-				e.printStackTrace();
+				Feedback feedback=new Feedback(employeeId, tId, coverageoftopics, effectivenessofcource, presentationstyle, paceofdelivery, courceoverall, traineroverall);
+				try {
+					boolean status=employeeService.feedbackFilling(feedback);
+					if(status)
+						System.out.println("Feedback Submitted");
+					else
+						System.out.println("Feedback not submitted");
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			else
+			{
+				System.out.println("Employee Is Not Enrolled in Any Training So Cant Fill Feedback");
 			}
 		break;
 		

@@ -14,4 +14,5 @@ public interface EmployeeService {
 	void feedbackDisablement(String employeeId) throws SQLException;
 	LinkedHashMap<Integer, String> feedbackPopup(String employeeID) throws SQLException;
 	LinkedHashMap<String, Boolean> notificationOfEnrollment(String employeeId) throws SQLException;
+	boolean checkIfEmployeeEnrolledToAnyTraining(String employeeId) throws SQLException;
 }
