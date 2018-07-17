@@ -20,4 +20,5 @@ public interface HRService {
 	ArrayList<RequestedTraining> viewRequestedTraining() throws SQLException;
 	void autoApproveOfMandateTraining() throws SQLException;
 	LinkedHashMap<Integer, String> displayAvailableTrainingFeedback() throws SQLException;
+	ArrayList<Training> viewTrainings() throws SQLException;
 }

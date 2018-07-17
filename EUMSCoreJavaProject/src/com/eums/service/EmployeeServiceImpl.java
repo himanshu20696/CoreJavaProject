@@ -89,20 +89,37 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public boolean feedbackFilling(Feedback feedback) throws SQLException {
 		long millis=System.currentTimeMillis();  
 		java.sql.Date date=new java.sql.Date(millis);
-		System.out.println("currentdate in feedback "+date);
-		//Training training = new Training();
 		Training training = trainingDao.searchRecord(feedback.getTid());
-//		if(date.equals(training.getEdate()) && 
-//				(feedBackDao.searchRecord(feedback.getEid(), feedback.getTid()))==0)
-		System.out.println("current time in feedback filling "+date.getTime());
-		System.out.println("training time in feedback filling "+training.getEdate().getTime());
-		if(date.toString().equals(training.getEdate().toString()) && 
-					(feedBackDao.searchRecord(feedback.getEid(), feedback.getTid()))==0)	
+//		System.out.println("current time in feedback filling "+date.getTime());
+//		System.out.println("training time in feedback filling "+training.getEdate().getTime());
+		int eligible=feedbackEligibilityCheck(feedback.getTid(),feedback.getEid());
+		if(eligible==2)	
 		{	
 			return feedBackDao.insertFeedback(feedback);
 		}
 		else
 			return false;
+	}
+	
+	public int feedbackEligibilityCheck(int trainingId, String employeeId) throws SQLException {
+		long millis=System.currentTimeMillis();  
+		java.sql.Date date=new java.sql.Date(millis);
+		int eligible=0;
+		Training training = trainingDao.searchRecord(trainingId);
+		if(training==null)
+			return 0;
+//		System.out.println("current time in feedback filling "+date.getTime());
+//		System.out.println("training time in feedback filling "+training.getEdate().getTime());
+		if(date.toString().equals(training.getEdate().toString()))
+		{
+			eligible=1;
+			if((feedBackDao.searchRecord(employeeId, trainingId))==0)
+			{
+				eligible=2;
+			}
+		}
+		return eligible;
+		
 	}
 
 	@Override
@@ -146,7 +163,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		for(Integer tId : enrolledTrainingIdList)
 		{
 			training = trainingDao.searchRecord(tId);
-			if(training.getEdate().equals(date) 
+			if(training.getEdate().toString().equals(date.toString()) 
 					&& (feedBackDao.searchRecord(employeeId, tId))==0)
 			{
 				hashmap.put(tId, training.getTname());

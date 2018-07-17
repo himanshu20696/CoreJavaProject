@@ -121,4 +121,9 @@ public class HRServiceImpl implements HRService {
 	public LinkedHashMap<Integer,String> displayAvailableTrainingFeedback() throws SQLException {	
 		return feedbackDao.viewAvailableTrainingFeedback();
 	}
+
+	@Override
+	public ArrayList<Training> viewTrainings() throws SQLException {
+		return trainingDao.listAllRecords();
+	}
 }

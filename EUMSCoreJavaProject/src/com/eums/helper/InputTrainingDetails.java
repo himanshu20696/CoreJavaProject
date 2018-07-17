@@ -58,7 +58,7 @@ public class InputTrainingDetails {
 		try {
 		ArrayList<Training> enrolledTrainingList=new ArrayList<>();
 		enrolledTrainingList=employeeService.viewEnrolledTraining(employeeId);
-		System.out.println("You Are Enrolled In Following Trainings : ");
+		System.out.println("You Are Enrolled In Following Trainings :- ");
 		for(Training list:enrolledTrainingList)
 		{
 			System.out.println(list); 

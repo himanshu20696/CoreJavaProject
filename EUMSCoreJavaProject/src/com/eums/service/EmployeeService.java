@@ -11,6 +11,7 @@ public interface EmployeeService {
 	ArrayList<Training> viewEnrolledTraining(String employeeId) throws SQLException;
 	boolean enrollForTraining(int trainingId, String employeeId) throws SQLException;
 	boolean feedbackFilling(Feedback feedback) throws SQLException;
+	int feedbackEligibilityCheck(int trainingId, String employeeId) throws SQLException;
 	void feedbackDisablement(String employeeId) throws SQLException;
 	LinkedHashMap<Integer, String> feedbackPopup(String employeeID) throws SQLException;
 	LinkedHashMap<String, Boolean> notificationOfEnrollment(String employeeId) throws SQLException;

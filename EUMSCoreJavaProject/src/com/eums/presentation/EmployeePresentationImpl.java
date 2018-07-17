@@ -91,29 +91,45 @@ public class EmployeePresentationImpl implements EmployeePresentation {
 			if(result2)
 			{
 				inputTrainingDetails.showEnrolledTrainings(employeeId);
-				System.out.println("Enter Training Id For Feedback :- ");
+				System.out.println("Enter Training Id For the Feedback to be filled :- ");
 				int tId=sc.nextInt();
-				System.out.println("Enter Coverage of topics Rating(1-5) :- ");
-				int coverageoftopics=sc.nextInt();
-				System.out.println("Enter Effectiveness of topics Rating(1-5) :- ");
-				int effectivenessofcource=sc.nextInt();
-				System.out.println("Enter Presentation Style Rating(1-5) :- ");
-				int presentationstyle=sc.nextInt();
-				System.out.println("Enter Pace of delivery of topics Rating(1-5) :- ");
-				int paceofdelivery=sc.nextInt();
-
-				int courceoverall=(coverageoftopics+effectivenessofcource)/2;
-				int traineroverall=(presentationstyle+paceofdelivery)/2;
-
-				Feedback feedback=new Feedback(employeeId, tId, coverageoftopics, effectivenessofcource, presentationstyle, paceofdelivery, courceoverall, traineroverall);
+				int eligible=0;
 				try {
-					boolean status=employeeService.feedbackFilling(feedback);
-					if(status)
-						System.out.println("Feedback Submitted");
-					else
-						System.out.println("Feedback not submitted");
-				} catch (SQLException e) {
-					e.printStackTrace();
+					eligible=employeeService.feedbackEligibilityCheck(tId, employeeId);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				if(eligible==0)
+					System.out.println("Invalid Training Id !");
+				else if(eligible==1)
+					System.out.println("Training Not Ended Yet ! Feedback can be filled only on the End Date !");
+				else if(eligible==2)
+					System.out.println("Feedback for the entered Training Id already exists !");
+				else
+				{
+					System.out.println("Enter Coverage of topics Rating(1-5) :- ");
+					int coverageoftopics=sc.nextInt();
+					System.out.println("Enter Effectiveness of topics Rating(1-5) :- ");
+					int effectivenessofcource=sc.nextInt();
+					System.out.println("Enter Presentation Style Rating(1-5) :- ");
+					int presentationstyle=sc.nextInt();
+					System.out.println("Enter Pace of delivery of topics Rating(1-5) :- ");
+					int paceofdelivery=sc.nextInt();
+
+					int courceoverall=(coverageoftopics+effectivenessofcource)/2;
+					int traineroverall=(presentationstyle+paceofdelivery)/2;
+
+					Feedback feedback=new Feedback(employeeId, tId, coverageoftopics, effectivenessofcource, presentationstyle, paceofdelivery, courceoverall, traineroverall);
+					try {
+						boolean status=employeeService.feedbackFilling(feedback);
+						if(status)
+							System.out.println("Feedback Submitted");
+						else
+							System.out.println("Feedback not submitted");
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 			else

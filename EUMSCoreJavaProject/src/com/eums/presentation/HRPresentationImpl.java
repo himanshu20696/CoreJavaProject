@@ -22,10 +22,11 @@ public class HRPresentationImpl implements HRPresentation {
 		System.out.println("=========");
 		System.out.println("1. Create New Training");
 		System.out.println("2. Modify Existing Trainings");
-		System.out.println("3. View Employees Enrolled For Training");
-		System.out.println("4. Approve Enrollments For Trainings");
-		System.out.println("5. View Feedback");
-		System.out.println("6. Log Out");
+		System.out.println("3. View Trainings");
+		System.out.println("4. View Employees Enrolled For Training");
+		System.out.println("5. Approve Enrollments For Trainings");
+		System.out.println("6. View Feedback");
+		System.out.println("7. Log Out");
 
 		System.out.println("Enter your choice :- ");
 		int choice=sc.nextInt();
@@ -50,7 +51,12 @@ public class HRPresentationImpl implements HRPresentation {
 				System.out.println("Cannot be created");
 			break;
 			
-		case 2:
+		case 2:				
+			try {
+				System.out.println(hrService.viewTrainings());
+			} catch (SQLException e3) {
+				e3.printStackTrace();
+			}
 			System.out.println("Update details here!!");
 			Training updatedTraining=inputDetails.inputTrainingDetails();
 			try {
@@ -65,7 +71,20 @@ public class HRPresentationImpl implements HRPresentation {
 			break;
 			
 		case 3:
-			System.out.println("Enter the training Id for which you want to see enrolled emplyees :-");
+			try {
+				System.out.println(hrService.viewTrainings());
+			} catch (SQLException e2) {
+				e2.printStackTrace();
+			}
+			
+		case 4:
+			try {
+				System.out.println(hrService.viewTrainings());
+			} catch (SQLException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+			System.out.println("Enter the training Id for which you want to see enrolled employees :-");
 			int trainingId=sc.nextInt();
 			ArrayList<Employee> employeeList=new ArrayList<>();
 			try {
@@ -73,12 +92,12 @@ public class HRPresentationImpl implements HRPresentation {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			System.out.println("Employees enrolled for "+trainingId+" are ");
+			System.out.println("Employees enrolled for Training Id : "+trainingId+" are :-");
 			System.out.println(employeeList);
 
 			break;
 			
-		case 4:
+		case 5:
 			try {
 				System.out.println(hrService.viewRequestedTraining());
 			} catch (SQLException e1) {
@@ -101,7 +120,7 @@ public class HRPresentationImpl implements HRPresentation {
 			else
 				break;
 			
-		case 5:
+		case 6:
 			LinkedHashMap<Integer,String> hashmap = new LinkedHashMap<>();
 			try {
 				hashmap = hrService.displayAvailableTrainingFeedback();
@@ -140,7 +159,7 @@ public class HRPresentationImpl implements HRPresentation {
 			}
 			break;
 			
-		case 6:
+		case 7:
 			System.out.println("You Have Successfully Logged Out!");
 			LoginPresentation loginPresentation = new LoginPresentationImpl();
 			loginPresentation.mainMenu();
