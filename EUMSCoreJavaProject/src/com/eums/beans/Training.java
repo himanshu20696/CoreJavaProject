@@ -9,8 +9,8 @@ public class Training {
 	private String trainername;
 	private Date sdate;
 	private Date edate;
-	private int maxcapacity;
-	private int availablecapacity;
+	private Integer maxcapacity;
+	private Integer availablecapacity;
 	private boolean mandatory;
 
 	public Training() {
@@ -18,7 +18,7 @@ public class Training {
 	}
 
 	public Training(int tid, String tname, String ttype, String trainername, Date sdate, Date edate,
-			int maxcapacity, int availablecapacity, boolean mandatory) {
+			Integer maxcapacity, Integer availablecapacity, boolean mandatory) {
 		super();
 		this.tid = tid;
 		this.tname = tname;
@@ -79,19 +79,19 @@ public class Training {
 		this.edate = edate;
 	}
 
-	public int getMaxcapacity() {
+	public Integer getMaxcapacity() {
 		return maxcapacity;
 	}
 
-	public void setMaxcapacity(int maxcapacity) {
+	public void setMaxcapacity(Integer maxcapacity) {
 		this.maxcapacity = maxcapacity;
 	}
 
-	public int getAvailablecapacity() {
+	public Integer getAvailablecapacity() {
 		return availablecapacity;
 	}
 
-	public void setAvailablecapacity(int availablecapacity) {
+	public void setAvailablecapacity(Integer availablecapacity) {
 		this.availablecapacity = availablecapacity;
 	}
 
@@ -105,7 +105,7 @@ public class Training {
 
 	@Override
 	public String toString() {
-		return "Training [tid=" + tid + ", tname=" + tname + ", ttype=" + ttype + ", trainername=" + trainername
+		return "\nTraining [tid=" + tid + ", tname=" + tname + ", ttype=" + ttype + ", trainername=" + trainername
 				+ ", sdate=" + sdate + ", edate=" + edate + ", maxcapacity=" + maxcapacity + ", availablecapacity="
 				+ availablecapacity + ", mandatory=" + mandatory + "]";
 	}

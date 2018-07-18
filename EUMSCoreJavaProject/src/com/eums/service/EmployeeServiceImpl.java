@@ -87,13 +87,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public boolean feedbackFilling(Feedback feedback) throws SQLException {
-		long millis=System.currentTimeMillis();  
-		java.sql.Date date=new java.sql.Date(millis);
-		Training training = trainingDao.searchRecord(feedback.getTid());
-//		System.out.println("current time in feedback filling "+date.getTime());
-//		System.out.println("training time in feedback filling "+training.getEdate().getTime());
+//		long millis=System.currentTimeMillis();  
+//		java.sql.Date date=new java.sql.Date(millis);
+//		Training training = trainingDao.searchRecord(feedback.getTid());
+////		System.out.println("current time in feedback filling "+date.getTime());
+////		System.out.println("training time in feedback filling "+training.getEdate().getTime());
 		int eligible=feedbackEligibilityCheck(feedback.getTid(),feedback.getEid());
-		if(eligible==2)	
+		if(eligible==3)	
 		{	
 			return feedBackDao.insertFeedback(feedback);
 		}
@@ -104,18 +104,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public int feedbackEligibilityCheck(int trainingId, String employeeId) throws SQLException {
 		long millis=System.currentTimeMillis();  
 		java.sql.Date date=new java.sql.Date(millis);
-		int eligible=0;
+		int eligible=1;
 		Training training = trainingDao.searchRecord(trainingId);
-		if(training==null)
+		if(training.equals(null))
+		{
 			return 0;
+		}
 //		System.out.println("current time in feedback filling "+date.getTime());
 //		System.out.println("training time in feedback filling "+training.getEdate().getTime());
 		if(date.toString().equals(training.getEdate().toString()))
 		{
-			eligible=1;
+			eligible=2;
 			if((feedBackDao.searchRecord(employeeId, trainingId))==0)
 			{
-				eligible=2;
+				eligible=3;
 			}
 		}
 		return eligible;

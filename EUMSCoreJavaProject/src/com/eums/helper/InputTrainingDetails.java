@@ -19,20 +19,28 @@ public class InputTrainingDetails {
 	HRService hrService = new HRServiceImpl();
 	Scanner sc=new Scanner(System.in);
 
-	public Training inputTrainingDetails(){
-		Integer availablecapacity = null,maxcapacity = null;
+	public Training inputTrainingDetails(String employeeId){
+		String tname = null;
+		String ttype = null;
+		String trainername = null;
+		Date sdate = null;
+		Date edate = null;
+		boolean mandatory = false;
+		Integer availablecapacity = null;
+		Integer	maxcapacity = null;
+		try {
 		System.out.println("Enter training Name");
-		String tname=sc.nextLine();
+		tname=sc.nextLine();
 		System.out.println("Enter trainering Type (Technical/HR/QMS)");
-		String ttype=sc.nextLine();
+		ttype=sc.nextLine();
 		System.out.println("Enter trainer's Name");
-		String trainername=sc.nextLine();
+		trainername=sc.nextLine();
 		System.out.println("Starting Date (yyyy-mm-dd)");
-		String sdate=sc.nextLine();
+		sdate=Date.valueOf(sc.nextLine());
 		System.out.println("End Date (yyyy-mm-dd)");
-		String edate=sc.nextLine();
+		edate=Date.valueOf(sc.nextLine());
 		System.out.println("Is Training Mandatory (true/false)");
-		boolean mandatory=sc.nextBoolean();
+		mandatory=sc.nextBoolean();
 		sc.nextLine();
 		if(mandatory == false)
 		{
@@ -41,15 +49,76 @@ public class InputTrainingDetails {
 			sc.nextLine();
 			availablecapacity=maxcapacity;
 		}
+		} catch(IllegalArgumentException e) {
+			System.out.println("Please Enter Valid Date Format (Format Mentioned)");
+			return null;
+		}
+		//System.out.println("creating training object");
 		Training training=new Training();
+		//System.out.println("setting values");
 		training.setTname(tname);
 		training.setTtype(ttype);
 		training.setTrainername(trainername);
-		training.setSdate(Date.valueOf(sdate));
-		training.setEdate(Date.valueOf(edate));
+		training.setSdate(sdate);
+		training.setEdate(edate);
 		training.setMaxcapacity(maxcapacity);
 		training.setAvailablecapacity(availablecapacity);
 		training.setMandatory(mandatory);
+		//System.out.println("returing training");
+		return training;
+	}
+	
+	public Training inputModifyTrainingDetails(String employeeId){
+		int tId=0;
+		String tname = null;
+		String ttype = null;
+		String trainername = null;
+		Date sdate = null;
+		Date edate = null;
+		boolean mandatory = false;
+		Integer availablecapacity = null;
+		Integer	maxcapacity = null;
+		try {
+		System.out.println("Enter training id for which you wanna modify");
+		tId = sc.nextInt();
+		sc.nextLine();
+		System.out.println("Enter training Name");
+		tname=sc.nextLine();
+		System.out.println("Enter trainering Type (Technical/HR/QMS)");
+		ttype=sc.nextLine();
+		System.out.println("Enter trainer's Name");
+		trainername=sc.nextLine();
+		System.out.println("Starting Date (yyyy-mm-dd)");
+		sdate=Date.valueOf(sc.nextLine());
+		System.out.println("End Date (yyyy-mm-dd)");
+		edate=Date.valueOf(sc.nextLine());
+		System.out.println("Is Training Mandatory (true/false)");
+		mandatory=sc.nextBoolean();
+		sc.nextLine();
+		if(mandatory == false)
+		{
+			System.out.println("Maximum capacity of training");
+			maxcapacity=sc.nextInt();
+			sc.nextLine();
+			availablecapacity=maxcapacity;
+		}
+		} catch(IllegalArgumentException e) {
+			System.out.println("Please Enter Valid Date Format (Format Mentioned)");
+			return null;
+		}
+		//System.out.println("creating training object");
+		Training training=new Training();
+		//System.out.println("setting values");
+		training.setTid(tId);
+		training.setTname(tname);
+		training.setTtype(ttype);
+		training.setTrainername(trainername);
+		training.setSdate(sdate);
+		training.setEdate(edate);
+		training.setMaxcapacity(maxcapacity);
+		training.setAvailablecapacity(availablecapacity);
+		training.setMandatory(mandatory);
+		//System.out.println("returing training");
 		return training;
 	}
 	

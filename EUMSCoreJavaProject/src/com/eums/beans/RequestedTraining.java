@@ -74,7 +74,7 @@ public class RequestedTraining {
 
 	@Override
 	public String toString() {
-		return "RequestedTraining [eid=" + eid + ", tid=" + tid + ", dateWithTime=" + dateWithTime + ", accepted="
+		return "\nRequestedTraining [eid=" + eid + ", tid=" + tid + ", dateWithTime=" + dateWithTime + ", accepted="
 				+ accepted + ", notified=" + notified + ", processed=" + processed + "]";
 	}
 

@@ -38,7 +38,11 @@ public class HRPresentationImpl implements HRPresentation {
 		switch(choice)
 		{
 		case 1:
-			Training training=inputDetails.inputTrainingDetails();
+			Training training = null;
+			do {
+				training=inputDetails.inputTrainingDetails(employeeId);
+				//System.out.println(training);
+			} while(training == null);
 			boolean status = false;
 			try {
 				status = hrService.createTrainingInCalender(training);
@@ -57,8 +61,13 @@ public class HRPresentationImpl implements HRPresentation {
 			} catch (SQLException e3) {
 				e3.printStackTrace();
 			}
+			Training updatedTraining = null;
 			System.out.println("Update details here!!");
-			Training updatedTraining=inputDetails.inputTrainingDetails();
+			do {
+				updatedTraining=inputDetails.inputModifyTrainingDetails(employeeId);
+				//System.out.println(training);
+			} while(updatedTraining == null);
+			//Training updatedTraining=inputDetails.inputTrainingDetails(employeeId);
 			try {
 				boolean updateStatus=hrService.modifyTrainingInCalender(updatedTraining.getTid(), updatedTraining);
 				if(updateStatus)
@@ -76,6 +85,7 @@ public class HRPresentationImpl implements HRPresentation {
 			} catch (SQLException e2) {
 				e2.printStackTrace();
 			}
+			break;
 			
 		case 4:
 			try {

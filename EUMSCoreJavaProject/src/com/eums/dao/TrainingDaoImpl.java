@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 
 import com.eums.beans.Training;
@@ -77,8 +78,16 @@ public class TrainingDaoImpl implements TrainingDao {
 		pst.setString(3, training.getTrainername());
 		pst.setDate(4, training.getSdate());
 		pst.setDate(5, training.getEdate());
-		pst.setInt(6, training.getMaxcapacity());
-		pst.setInt(7, training.getAvailablecapacity());
+		if(training.getMaxcapacity() == null)
+		{
+			pst.setNull(6, Types.NULL);
+			pst.setNull(7, Types.NULL);
+		}
+		else
+		{
+			pst.setInt(6, training.getMaxcapacity());
+			pst.setInt(7, training.getAvailablecapacity());	
+		}
 		pst.setBoolean(8, training.isMandatory());
 
 		int rows=pst.executeUpdate();
@@ -121,8 +130,16 @@ public class TrainingDaoImpl implements TrainingDao {
 		pst.setString(3, newTraining.getTrainername());
 		pst.setDate(4, newTraining.getSdate());
 		pst.setDate(5, newTraining.getEdate());
-		pst.setInt(6, newTraining.getMaxcapacity());
-		pst.setInt(7, newTraining.getAvailablecapacity());
+		if(newTraining.getMaxcapacity() == null)
+		{
+			pst.setNull(6, Types.NULL);
+			pst.setNull(7, Types.NULL);
+		}
+		else
+		{
+			pst.setInt(6, newTraining.getMaxcapacity());
+			pst.setInt(7, newTraining.getAvailablecapacity());	
+		}
 		pst.setBoolean(8, newTraining.isMandatory());
 		pst.setInt(9, tId);
 		int rows = pst.executeUpdate();

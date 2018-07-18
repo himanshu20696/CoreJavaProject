@@ -118,7 +118,6 @@ public class FeedbackDaoImpl implements FeedbackDao {
 		{
 			result = rs.getInt(1);
 		}
-		System.out.println("result in searchrecord feedbackdao "+result);
 		return result;
 	}
 	

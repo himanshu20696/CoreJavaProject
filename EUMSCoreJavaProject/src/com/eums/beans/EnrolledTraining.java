@@ -33,6 +33,6 @@ public class EnrolledTraining {
 
 	@Override
 	public String toString() {
-		return "EnrolledTraining [employeeId=" + employeeId + ", trainingId=" + trainingId + "]";
+		return "\nEnrolledTraining [employeeId=" + employeeId + ", trainingId=" + trainingId + "]";
 	}
 }
