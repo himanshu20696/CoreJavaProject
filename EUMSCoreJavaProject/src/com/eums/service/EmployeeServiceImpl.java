@@ -39,7 +39,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 		for(Training training:allTraining)
 		{
-			if(date.before(training.getSdate())&&!enrolledTrainingList.contains(training.getTid()))
+			if(date.before(training.getSdate())&&(!enrolledTrainingList.contains(training.getTid())
+					&&(training.isMandatory()==false)))
 			{
 				list.add(training);
 			}
@@ -195,7 +196,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			newRequestedTraining.setTid(requestedTraining.getTid());
 			newRequestedTraining.setAccepted(requestedTraining.isAccepted());
 			newRequestedTraining.setNotified(true);
-			newRequestedTraining.setProcessed(requestedTraining.isNotified());
+			newRequestedTraining.setProcessed(requestedTraining.isProcessed());
 			requestedTrainingDao.updateRecord(newRequestedTraining);
 		}
 		return notificationMap;

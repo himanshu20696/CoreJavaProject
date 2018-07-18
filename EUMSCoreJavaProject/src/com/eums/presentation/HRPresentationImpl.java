@@ -120,6 +120,7 @@ public class HRPresentationImpl implements HRPresentation {
 			{
 				try {
 					hrService.approveEnrollmentOfTraining();
+					EmployeePresentationImpl.notification = 1;
 					System.out.println("Status after Approval :-");
 					System.out.println(hrService.viewRequestedTraining());
 				} catch (SQLException e) {

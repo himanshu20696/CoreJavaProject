@@ -10,4 +10,5 @@ public interface EnrolledTrainingDao {
 	boolean insertRecord(EnrolledTraining enrolledTraining) throws SQLException;
 	EnrolledTraining searchRecord(String employeeId) throws SQLException;
 	ArrayList<Integer> listEmployeeEnrolledTrainingRecords(String employeeId) throws SQLException;
+	ArrayList<Integer> listAllDistinctTrainings() throws SQLException;
 }

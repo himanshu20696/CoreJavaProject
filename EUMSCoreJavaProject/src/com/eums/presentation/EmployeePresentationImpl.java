@@ -14,6 +14,7 @@ import com.eums.service.HRServiceImpl;
 
 public class EmployeePresentationImpl implements EmployeePresentation {
 	
+	static int notification = 0;
 	EmployeeService employeeService=new EmployeeServiceImpl();
 	HRService hrService = new HRServiceImpl();
 	InputTrainingDetails inputTrainingDetails = new InputTrainingDetails();
@@ -29,7 +30,10 @@ public class EmployeePresentationImpl implements EmployeePresentation {
 		//Disabling Feedback (If Employee Does Not Fill On Last Day)
 		inputTrainingDetails.feedbackDisablement(employeeId);
 		//Sending Notification To User About Training (Approved/Not Approved)
-		inputTrainingDetails.notificationOfEnrollmentToUser(employeeId);
+		if(notification == 1)
+		{
+			inputTrainingDetails.notificationOfEnrollmentToUser(employeeId);
+		}
 		//Employee Menu
 		System.out.println("Employee MENU");
 		System.out.println("=========");
@@ -53,24 +57,37 @@ public class EmployeePresentationImpl implements EmployeePresentation {
 			{
 				System.out.println(list);
 			}
-			System.out.println("Do You Want To Enroll For Any Training (Yes/No)");
-			String enrollChoice = sc.next();
-			if(enrollChoice.equalsIgnoreCase("yes"))
+			while(true)
 			{
-				System.out.println("Enter Training Id For Which You Wanna Enroll :- ");
-				int trainingId=sc.nextInt();
-				boolean status=employeeService.enrollForTraining(trainingId, employeeId);
-				if(status)
-					System.out.println("Request For Enrollment Has Been Sent To HR. You Will Be Notified Shortly");
+				System.out.println("Do You Want To Enroll For Any Training (Yes/No)");
+				String enrollChoice = sc.next();
+				if(enrollChoice.equalsIgnoreCase("yes"))
+				{
+					System.out.println("Enter Training Id For Which You Wanna Enroll :- ");
+					int trainingId=sc.nextInt();
+					boolean status=employeeService.enrollForTraining(trainingId, employeeId);
+					if(status)
+					{
+						System.out.println("Request For Enrollment Has Been Sent To HR. You Will Be Notified Shortly");
+						notification = 0;
+					}
+					else
+						System.out.println("Some Problem Please Try Again");
+
+					break;
+				}
+				else if(enrollChoice.equalsIgnoreCase("no"))
+				{
+					showEmployeeMenu(employeeId);
+					break;
+				}
 				else
-					System.out.println("Some Problem Please Try Again");
-			}
-			else if(enrollChoice.equalsIgnoreCase("no"))
-			{
-				showEmployeeMenu(employeeId);
+				{
+					System.out.println("Please enter a vaild input");
+				}
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("You Are Already Enrolled For This Training. Please Select Another Training");
 		}
 		break;
 		

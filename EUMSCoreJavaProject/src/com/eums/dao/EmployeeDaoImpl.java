@@ -22,14 +22,14 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		ResultSet rs=stmt.executeQuery("select * from employee_details");
 		Employee employee=null;
 		while(rs.next()){
-			String employeeId=rs.getString(1);
-			String employeeName=rs.getString(2);
-			String employeeEmail=rs.getString(3);
-			String employeePassword=rs.getString(4);
-			String employeeType=rs.getString(5);
-			String employeeTeam=rs.getString(6);
-			String employeeAddress=rs.getString(7);
-			String employeeContactNo=rs.getString(8);
+			String employeeId=rs.getString("eid");
+			String employeeName=rs.getString("ename");
+			String employeeEmail=rs.getString("eemail");
+			String employeePassword=rs.getString("epassword");
+			String employeeType=rs.getString("etype");
+			String employeeTeam=rs.getString("eteam");
+			String employeeAddress=rs.getString("eaddress");
+			String employeeContactNo=rs.getString("enumber");
 			employee=new Employee(employeeId,employeeName,employeeEmail,employeePassword,
 					employeeType,employeeTeam,employeeAddress,employeeContactNo);
 			employeeDetails.add(employee);

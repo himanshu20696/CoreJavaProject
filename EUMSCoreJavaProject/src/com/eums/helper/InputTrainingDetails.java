@@ -28,6 +28,8 @@ public class InputTrainingDetails {
 		boolean mandatory = false;
 		Integer availablecapacity = null;
 		Integer	maxcapacity = null;
+		long millis=System.currentTimeMillis();  
+		java.sql.Date date=new java.sql.Date(millis);
 		try {
 		System.out.println("Enter training Name");
 		tname=sc.nextLine();
@@ -35,10 +37,24 @@ public class InputTrainingDetails {
 		ttype=sc.nextLine();
 		System.out.println("Enter trainer's Name");
 		trainername=sc.nextLine();
-		System.out.println("Starting Date (yyyy-mm-dd)");
-		sdate=Date.valueOf(sc.nextLine());
-		System.out.println("End Date (yyyy-mm-dd)");
-		edate=Date.valueOf(sc.nextLine());
+		
+		int invalid=0;
+		do{
+			if(invalid>0)
+				System.out.println("Start Date passed or same as current date!");
+			System.out.println("Starting Date (yyyy-mm-dd)");
+			sdate=Date.valueOf(sc.nextLine());
+			invalid++;
+		}while(sdate.before(date)||sdate.equals(date));
+		invalid=0;
+		do{
+			if(invalid>0)
+				System.out.println("Invalid End Date ! Date passed !");
+			System.out.println("End Date (yyyy-mm-dd)");
+			edate=Date.valueOf(sc.nextLine());
+			invalid++;
+		}while(edate.before(sdate));
+		
 		System.out.println("Is Training Mandatory (true/false)");
 		mandatory=sc.nextBoolean();
 		sc.nextLine();
@@ -78,6 +94,8 @@ public class InputTrainingDetails {
 		boolean mandatory = false;
 		Integer availablecapacity = null;
 		Integer	maxcapacity = null;
+		long millis=System.currentTimeMillis();  
+		java.sql.Date date=new java.sql.Date(millis);
 		try {
 		System.out.println("Enter training id for which you wanna modify");
 		tId = sc.nextInt();
@@ -88,10 +106,24 @@ public class InputTrainingDetails {
 		ttype=sc.nextLine();
 		System.out.println("Enter trainer's Name");
 		trainername=sc.nextLine();
-		System.out.println("Starting Date (yyyy-mm-dd)");
-		sdate=Date.valueOf(sc.nextLine());
-		System.out.println("End Date (yyyy-mm-dd)");
-		edate=Date.valueOf(sc.nextLine());
+		
+		int invalid=0;
+		do{
+			if(invalid>0)
+				System.out.println("Start Date passed or same as current date!");
+			System.out.println("Starting Date (yyyy-mm-dd)");
+			sdate=Date.valueOf(sc.nextLine());
+			invalid++;
+		}while(sdate.before(date)||sdate.equals(date));
+		invalid=0;
+		do{
+			if(invalid>0)
+				System.out.println("Invalid End Date ! Date passed !");
+			System.out.println("End Date (yyyy-mm-dd)");
+			edate=Date.valueOf(sc.nextLine());
+			invalid++;
+		}while(edate.before(sdate));
+		
 		System.out.println("Is Training Mandatory (true/false)");
 		mandatory=sc.nextBoolean();
 		sc.nextLine();

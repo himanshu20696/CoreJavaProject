@@ -100,18 +100,28 @@ public class HRServiceImpl implements HRService {
 	
 	@Override
 	public void autoApproveOfMandateTraining() throws SQLException {
+		long millis=System.currentTimeMillis();  
+		java.sql.Date date=new java.sql.Date(millis);  
+		ArrayList<Integer> allDistinctTrainingIdList = new ArrayList<>();
 		ArrayList<Training> mandatoryTraining=new ArrayList<>();
+		List<Employee> employeeList = new ArrayList<>();
 		TrainingDao trainingDao=new TrainingDaoImpl();
 		EmployeeDao employeeDao=new EmployeeDaoImpl();
-		ArrayList<Employee> employeeList = (ArrayList<Employee>) employeeDao.listAllRecords();
+		employeeList = employeeDao.listAllRecords();
+		//System.out.println(employeeList);
 		mandatoryTraining=trainingDao.listAllRecords();
+		allDistinctTrainingIdList = enrolledTrainingDao.listAllDistinctTrainings();
+		//System.out.println(mandatoryTraining);
 		for(Training mandatory:mandatoryTraining)
 		{
 			for(Employee emp:employeeList)
 			{
-			     if(mandatory.isMandatory()==true && emp.getEmployeeType().equalsIgnoreCase("EMP"))
+			     if(mandatory.isMandatory()==true && emp.getEmployeeType().equalsIgnoreCase("EMP") && mandatory.getSdate().after(date) && !allDistinctTrainingIdList.contains(mandatory.getTid()))
 			     {
-			     	approveEnrollmentOfTraining();
+			    	//System.out.println(mandatory);
+			    	//System.out.println(emp);
+			    	EnrolledTraining enrolledTraining = new EnrolledTraining(emp.getEmployeeID(), mandatory.getTid()) ;
+			     	enrolledTrainingDao.insertRecord(enrolledTraining);
 			     }
 			}	
 		}		
