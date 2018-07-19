@@ -61,14 +61,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 			}
 		}
 		Training wantToJoinTraining = trainingDao.searchRecord(trainingId);
-		java.sql.Date startDate = new java.sql.Date(wantToJoinTraining.getSdate().getTime());
-		System.out.println("startDate :"+startDate);
+		java.sql.Date wantToJoinStartDate = new java.sql.Date(wantToJoinTraining.getSdate().getTime());
+		System.out.println("startDate :"+wantToJoinStartDate);
 		for(EnrolledTraining enrolledTraining:enrolledEmployeeTrainingList)
 		{
 			Training training = trainingDao.searchRecord(enrolledTraining.getTrainingId());
+			java.sql.Date startDate = new java.sql.Date(training.getSdate().getTime());
 			java.sql.Date endDate = new java.sql.Date(training.getEdate().getTime());
+			System.out.println("startDate :"+startDate);
 			System.out.println("endDate :"+endDate);
-			if(endDate.after(startDate))
+			if(wantToJoinStartDate.after(startDate) && wantToJoinStartDate.before(endDate))
 			{
 				return false;
 			}

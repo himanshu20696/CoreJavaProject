@@ -72,7 +72,7 @@ public class EmployeePresentationImpl implements EmployeePresentation {
 						notification = 0;
 					}
 					else
-						System.out.println("Some Problem Please Try Again");
+						System.out.println("You Are Already Enrolled For A Training In That Period. Please Try Any other Training");
 
 					break;
 				}
@@ -87,7 +87,7 @@ public class EmployeePresentationImpl implements EmployeePresentation {
 				}
 			}
 		} catch (SQLException e) {
-			System.out.println("You Are Already Enrolled For This Training. Please Select Another Training");
+			System.out.println("You Already Applied For This Training. Please Wait For HR Approval. You Will Be Notified Soon");
 		}
 		break;
 		
