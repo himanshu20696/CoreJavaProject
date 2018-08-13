@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.eums.beans.Feedback;
@@ -105,17 +106,35 @@ public class FeedbackDaoImpl implements FeedbackDao {
 	}
 	
 	@Override
-	public boolean searchRecord(String employeeId, int trainingId) throws SQLException {
+	public int searchRecord(String employeeId, int trainingId) throws SQLException {
 		Connection con=null; 
 		Statement stmt=null;
 		con=DBConnection.getDBConnection();
 		stmt=con.createStatement();
-		ResultSet rs = stmt.executeQuery("select count(*) from feedback where eid='"+employeeId+"' and tid="+trainingId);
+		int result=0;
+		ResultSet rs = stmt.executeQuery("select count(*) from feedback where user__id='"+employeeId+"' and training__id="+trainingId);
 		
-		if(rs.next())
+		while(rs.next())
 		{
-			return true;
+			result = rs.getInt(1);
 		}
-		return false;
+		System.out.println("result in searchrecord feedbackdao "+result);
+		return result;
+	}
+	
+	@Override
+	public LinkedHashMap<Integer,String> viewAvailableTrainingFeedback() throws SQLException{
+		LinkedHashMap<Integer,String> hashmap = new LinkedHashMap<>();
+		Connection con=null; 
+		Statement stmt=null;
+		con=DBConnection.getDBConnection();
+		stmt=con.createStatement();
+		ResultSet rs = stmt.executeQuery("select DISTINCT tid,tname from training_details");
+		while(rs.next()){
+			int tid = rs.getInt(1);
+			String tname = rs.getString(2);
+			hashmap.put(tid, tname);
+		}
+		return hashmap;
 	}
 }

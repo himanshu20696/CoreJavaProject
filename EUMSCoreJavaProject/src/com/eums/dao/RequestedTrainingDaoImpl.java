@@ -61,7 +61,7 @@ public class RequestedTrainingDaoImpl implements RequestedTrainingDao {
 	}
 
 	@Override
-	public boolean updateRecord(int tId, String eid, RequestedTraining newRequestedTraining) throws SQLException {
+	public boolean updateRecord(RequestedTraining newRequestedTraining) throws SQLException {
 		Connection con=null; 
 		PreparedStatement pst=null;
 		con=DBConnection.getDBConnection();
@@ -73,8 +73,8 @@ public class RequestedTrainingDaoImpl implements RequestedTrainingDao {
 		pst.setBoolean(1, newRequestedTraining.isAccepted());
 		pst.setBoolean(2, newRequestedTraining.isNotified());
 		pst.setBoolean(3, newRequestedTraining.isProcessed());
-		pst.setInt(4, tId);
-		pst.setString(5, eid);
+		pst.setInt(4, newRequestedTraining.getTid());
+		pst.setString(5, newRequestedTraining.getEid());
 		int rows = pst.executeUpdate();
 		if(rows <= 0)
 			return false;

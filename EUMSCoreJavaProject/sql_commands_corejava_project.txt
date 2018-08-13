@@ -156,3 +156,4 @@ CREATE INDEX fki_feedback_training_fkey
 ===============================
 
 alter table requested_training add column processed boolean;
+alter table training_details drop column status;

@@ -3,15 +3,20 @@ package com.eums.helper;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Scanner;
+import java.util.Set;
 
 import com.eums.beans.Training;
 import com.eums.service.EmployeeService;
 import com.eums.service.EmployeeServiceImpl;
+import com.eums.service.HRService;
+import com.eums.service.HRServiceImpl;
 
 public class InputTrainingDetails {
 	
 	EmployeeService employeeService=new EmployeeServiceImpl();
+	HRService hrService = new HRServiceImpl();
 	Scanner sc=new Scanner(System.in);
 
 	public Training inputTrainingDetails(){
@@ -51,6 +56,62 @@ public class InputTrainingDetails {
 		}
 		} catch (SQLException e1) {
 			e1.printStackTrace();
+		}
+	}
+	
+	public void feedbackDisablement(String employeeId)
+	{
+		try {
+			employeeService.feedbackDisablement(employeeId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void autoEnrollMandatoryTrainings()
+	{
+		try {
+			hrService.autoApproveOfMandateTraining();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void notificationOfEnrollmentToUser(String employeeId)
+	{
+		try {
+			LinkedHashMap<String, Boolean> notification = new LinkedHashMap<>();
+			notification = employeeService.notificationOfEnrollment(employeeId);
+			Set<String> keys = notification.keySet();
+			for(String trainings:keys)
+			{
+				System.out.print("Your Training Request for "+trainings+" ");
+				if(notification.get(trainings))
+				{
+					System.out.println("Has Been Approved");
+				}
+				else
+				{
+					System.out.println("Has Been Declined");
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void feedbackPopupToEmployee(String employeeId)
+	{
+		try {
+			LinkedHashMap<Integer, String> feedbackPopup = new LinkedHashMap<>();
+			feedbackPopup = employeeService.feedbackPopup(employeeId);
+			Set<Integer> keys = feedbackPopup.keySet();
+			for(Integer trainingId:keys)
+			{
+				System.out.println("Please Fill Feedback For "+feedbackPopup.get(trainingId)+" Having Trianing ID "+trainingId);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 }

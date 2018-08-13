@@ -26,10 +26,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private EnrolledTrainingDao enrolledTrainingDao = new EnrolledTrainingDaoImpl();
 
 	@Override
-	public ArrayList<Training> viewUpcommingTraining() throws SQLException {
+	public ArrayList<Training> viewUpcommingTraining(String employeeId) throws SQLException {
 		ArrayList<Training> allTraining=new ArrayList<>();
 		allTraining = trainingDao.listAllRecords();
 		ArrayList<Training> list=new ArrayList<>();
+		ArrayList<Integer> enrolledTrainingList = new ArrayList<>();
+		enrolledTrainingList=enrolledTrainingDao.listEmployeeEnrolledTrainingRecords(employeeId);
 
 		long millis=System.currentTimeMillis();  
 		java.sql.Date date=new java.sql.Date(millis);  
@@ -37,7 +39,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 		for(Training training:allTraining)
 		{
-			if(date.before(training.getSdate()))
+			if(date.before(training.getSdate())&&!enrolledTrainingList.contains(training.getTid()))
 			{
 				list.add(training);
 			}
@@ -78,9 +80,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 		requestedTraining.setProcessed(false);
 		long millis=System.currentTimeMillis();  
 		java.sql.Timestamp date=new java.sql.Timestamp(millis);
-//		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//		Date date = new Date();
-//		requestedTraining.setDateWithTime(formatter.format(date));
 		requestedTraining.setDateWithTime(date);
 		boolean result = requestedTrainingDao.insertRecord(requestedTraining);
 		return result;
@@ -89,11 +88,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public boolean feedbackFilling(Feedback feedback) throws SQLException {
 		long millis=System.currentTimeMillis();  
-		java.sql.Date date=new java.sql.Date(millis);  
+		java.sql.Date date=new java.sql.Date(millis);
+		System.out.println("currentdate in feedback "+date);
 		//Training training = new Training();
 		Training training = trainingDao.searchRecord(feedback.getTid());
-		if(date.equals(training.getEdate()) && 
-				!(feedBackDao.searchRecord(feedback.getEid(), feedback.getTid())))
+//		if(date.equals(training.getEdate()) && 
+//				(feedBackDao.searchRecord(feedback.getEid(), feedback.getTid()))==0)
+		System.out.println("current time in feedback filling "+date.getTime());
+		System.out.println("training time in feedback filling "+training.getEdate().getTime());
+		if(date.toString().equals(training.getEdate().toString()) && 
+					(feedBackDao.searchRecord(feedback.getEid(), feedback.getTid()))==0)	
 		{	
 			return feedBackDao.insertFeedback(feedback);
 		}
@@ -103,14 +107,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public void feedbackDisablement(String employeeId) throws SQLException {
+		//Finding All Training in which user is enrolled
 		ArrayList<Training> trainingList = new ArrayList<>();
 		ArrayList<Training> feedbackDisabledTrainingList = new ArrayList<>();
-		trainingList = viewEnrolledTraining(employeeId); 
+		trainingList = viewEnrolledTraining(employeeId);
+
 		long millis=System.currentTimeMillis();  
 		java.sql.Date date=new java.sql.Date(millis);  
 		for(Training training:trainingList)
 		{
-			if(date.after(training.getEdate()))
+			int result = feedBackDao.searchRecord(employeeId, training.getTid());
+			if(date.after(training.getEdate()) && result==0)
 			{
 				feedbackDisabledTrainingList.add(training);
 			}
@@ -140,7 +147,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		{
 			training = trainingDao.searchRecord(tId);
 			if(training.getEdate().equals(date) 
-					&& !(feedBackDao.searchRecord(employeeId, tId)))
+					&& (feedBackDao.searchRecord(employeeId, tId))==0)
 			{
 				hashmap.put(tId, training.getTname());
 			}
@@ -165,10 +172,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 			Training training = trainingDao.searchRecord(requestedTraining.getTid());
 			notificationMap.put(training.getTname(), requestedTraining.isAccepted());
 			RequestedTraining newRequestedTraining = new RequestedTraining();
+			newRequestedTraining.setEid(requestedTraining.getEid());
+			newRequestedTraining.setTid(requestedTraining.getTid());
 			newRequestedTraining.setAccepted(requestedTraining.isAccepted());
 			newRequestedTraining.setNotified(true);
 			newRequestedTraining.setProcessed(requestedTraining.isNotified());
-			requestedTrainingDao.updateRecord(requestedTraining.getTid(), requestedTraining.getEid(), newRequestedTraining);
+			requestedTrainingDao.updateRecord(newRequestedTraining);
 		}
 		return notificationMap;
 	}

@@ -7,7 +7,7 @@ import com.eums.beans.Feedback;
 import com.eums.beans.Training;
 
 public interface EmployeeService {
-	ArrayList<Training> viewUpcommingTraining() throws SQLException;
+	ArrayList<Training> viewUpcommingTraining(String employeeId) throws SQLException;
 	ArrayList<Training> viewEnrolledTraining(String employeeId) throws SQLException;
 	boolean enrollForTraining(int trainingId, String employeeId) throws SQLException;
 	boolean feedbackFilling(Feedback feedback) throws SQLException;

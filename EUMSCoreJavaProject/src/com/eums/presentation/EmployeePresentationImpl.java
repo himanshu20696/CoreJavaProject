@@ -2,50 +2,36 @@ package com.eums.presentation;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.Scanner;
-import java.util.Set;
 
 import com.eums.beans.Feedback;
 import com.eums.beans.Training;
 import com.eums.helper.InputTrainingDetails;
 import com.eums.service.EmployeeService;
 import com.eums.service.EmployeeServiceImpl;
+import com.eums.service.HRService;
+import com.eums.service.HRServiceImpl;
 
 public class EmployeePresentationImpl implements EmployeePresentation {
 	
 	EmployeeService employeeService=new EmployeeServiceImpl();
+	HRService hrService = new HRServiceImpl();
 	InputTrainingDetails inputTrainingDetails = new InputTrainingDetails();
 	Scanner sc=new Scanner(System.in);
 	
 	@Override
 	public void showEmployeeMenu(String employeeId) {
-		try {
-			employeeService.feedbackDisablement(employeeId);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		try {
-			LinkedHashMap<String, Boolean> notification = new LinkedHashMap<>();
-			notification = employeeService.notificationOfEnrollment(employeeId);
-			Set<String> keys = notification.keySet();
-			for(String trainings:keys)
-			{
-				System.out.print("Your Training Request for "+trainings+" ");
-				if(notification.get(trainings))
-				{
-					System.out.println("Has Been Approved");
-				}
-				else
-				{
-					System.out.println("Has Been Declined");
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		System.out.println(" Employee MENU");
+		LoginPresentationImpl.loginAttempt=3;
+		//Auto Approve Of Mandatory Trainings
+		inputTrainingDetails.autoEnrollMandatoryTrainings();
+		//Feedback popup to employee on last day of training
+		inputTrainingDetails.feedbackPopupToEmployee(employeeId);
+		//Disabling Feedback (If Employee Does Not Fill On Last Day)
+		inputTrainingDetails.feedbackDisablement(employeeId);
+		//Sending Notification To User About Training (Approved/Not Approved)
+		inputTrainingDetails.notificationOfEnrollmentToUser(employeeId);
+		//Employee Menu
+		System.out.println("Employee MENU");
 		System.out.println("=========");
 		System.out.println("1. View Upcomming Trainings");
 		System.out.println("2. View Enrolled Trainings");
@@ -62,7 +48,7 @@ public class EmployeePresentationImpl implements EmployeePresentation {
 		{
 		case 1: try {
 			ArrayList<Training> upcommingTrainingList=new ArrayList<>();
-			upcommingTrainingList=employeeService.viewUpcommingTraining();
+			upcommingTrainingList=employeeService.viewUpcommingTraining(employeeId);
 			for(Training list:upcommingTrainingList)
 			{
 				System.out.println(list);
@@ -123,7 +109,7 @@ public class EmployeePresentationImpl implements EmployeePresentation {
 		case 4:
 			System.out.println("You Have Successfully Logged Out!");
 			LoginPresentation loginPresentation = new LoginPresentationImpl();
-			loginPresentation.login();
+			loginPresentation.mainMenu();
 		break;
 		
 		default: 

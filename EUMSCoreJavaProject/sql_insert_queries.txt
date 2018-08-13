@@ -7,6 +7,16 @@ insert into employee_details values('ym006','ve00ym006@globalymc.com','emp6','EM
 insert into employee_details values('ae001','ae00ym001@globalymc.com','hr1','HR','Deepak','9876543216','Faridabad','HR');
 insert into employee_details values('ae002','ae00ym002@globalymc.com','hr2','HR','Vir','9876543217','Faridabad','HR');
 
-insert into training_details(tname,ttype,trainername,startdate,enddate,maxcapacity,availablecapacity,status,mandatory) values('JAVA Training','Technical','Sujata Batra','2018-07-02','2018-08-13',null,null,'On Going',true);
-insert into training_details(tname,ttype,trainername,startdate,enddate,maxcapacity,availablecapacity,status,mandatory) values('Excel Training','Technical','Someone1','2018-08-03','2018-08-13',5,5,'Open',false);
-insert into training_details(tname,ttype,trainername,startdate,enddate,maxcapacity,availablecapacity,status,mandatory) values('Excel Training','Technical','Someone1','2018-08-03','2018-08-13',5,5,'Open',false);
+insert into training_details(tname,ttype,trainername,startdate,enddate,maxcapacity,availablecapacity,status,mandatory) values('JAVA Training','Technical','Sujata Batra','2018-07-02','2018-08-13',null,null,true);
+insert into training_details(tname,ttype,trainername,startdate,enddate,maxcapacity,availablecapacity,status,mandatory) values('Excel Training','Technical','Someone1','2018-08-03','2018-08-13',5,5,false);
+
+select * from employee_details;
+select * from employee_enrolled_for_training;
+select * from feedback;
+select * from requested_training;
+select * from training_details;
+
+truncate table employee_enrolled_for_training;
+truncate table feedback;
+truncate table requested_training;
+truncate table training_details;

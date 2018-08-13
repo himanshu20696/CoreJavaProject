@@ -19,7 +19,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		ArrayList<Employee> employeeDetails=new ArrayList<>();
 		con=DBConnection.getDBConnection();
 		stmt=con.createStatement();
-		ResultSet rs=stmt.executeQuery("select * from company");
+		ResultSet rs=stmt.executeQuery("select * from employee_details");
 		Employee employee=null;
 		while(rs.next()){
 			String employeeId=rs.getString(1);

@@ -2,6 +2,7 @@ package com.eums.service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.eums.beans.Employee;
@@ -29,9 +30,8 @@ public class HRServiceImpl implements HRService {
 	private EmployeeDao employeeDao = new EmployeeDaoImpl();
 
 	@Override
-	public boolean createTrainingInCalender(Training training) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean createTrainingInCalender(Training training) throws SQLException {
+		return trainingDao.insertRecord(training);
 	}
 
 	@Override
@@ -60,15 +60,12 @@ public class HRServiceImpl implements HRService {
 	}
 
 	@Override
-	public boolean approveEnrollmentOfTraining(String employeeId, int trainingId) throws SQLException {
-		//call listpendingrecords for display from presentation layer
+	public void approveEnrollmentOfTraining() throws SQLException {
 		List<RequestedTraining> requestedTraining = new ArrayList<RequestedTraining>();
-		//Training training = new Training();
-		Training training = trainingDao.searchRecord(trainingId);
 		requestedTraining=requestedTrainingDao.listPendingRecords();
-		Boolean update=false;
 		for(RequestedTraining r : requestedTraining)
 		{
+			Training training = trainingDao.searchRecord(r.getTid());
 			if(training.getAvailablecapacity() > 0)
 			{
 				r.setAccepted(true);
@@ -76,30 +73,23 @@ public class HRServiceImpl implements HRService {
 				enrolledTrainingDao.insertRecord(enrolledTraining);
 				training.setAvailablecapacity(training.getAvailablecapacity()-1);
 				trainingDao.updateRecord(training.getTid(), training);
-				update = true;
 			}
 			else
 			{
 				r.setAccepted(false);
-				update = false;
 			}
 			r.setProcessed(true);
-			r.setNotified(r.isNotified());
-			requestedTrainingDao.updateRecord(trainingId, employeeId, r);
+			requestedTrainingDao.updateRecord(r);
 		}
-		//Display records from requested_training
-		return update;
 	}
-
+	
 	@Override
 	public List<Feedback> viewTrainingFeedbackDetailed(int trainingId) throws SQLException {
-
 		return feedbackDao.listDetailedFeedback(trainingId);
 	}
 
 	@Override
 	public String viewTrainingFeedbackConsolidated(int trainingId) throws SQLException {
-		// TODO Auto-generated method stub
 		return feedbackDao.listConsolidatedFeedback(trainingId);
 	}
 
@@ -107,5 +97,28 @@ public class HRServiceImpl implements HRService {
 	public ArrayList<RequestedTraining> viewRequestedTraining() throws SQLException {
 		return requestedTrainingDao.listPendingRecords();
 	}
-
+	
+	@Override
+	public void autoApproveOfMandateTraining() throws SQLException {
+		ArrayList<Training> mandatoryTraining=new ArrayList<>();
+		TrainingDao trainingDao=new TrainingDaoImpl();
+		EmployeeDao employeeDao=new EmployeeDaoImpl();
+		ArrayList<Employee> employeeList = (ArrayList<Employee>) employeeDao.listAllRecords();
+		mandatoryTraining=trainingDao.listAllRecords();
+		for(Training mandatory:mandatoryTraining)
+		{
+			for(Employee emp:employeeList)
+			{
+			     if(mandatory.isMandatory()==true && emp.getEmployeeType().equalsIgnoreCase("EMP"))
+			     {
+			     	approveEnrollmentOfTraining();
+			     }
+			}	
+		}		
+	}
+	
+	@Override
+	public LinkedHashMap<Integer,String> displayAvailableTrainingFeedback() throws SQLException {	
+		return feedbackDao.viewAvailableTrainingFeedback();
+	}
 }

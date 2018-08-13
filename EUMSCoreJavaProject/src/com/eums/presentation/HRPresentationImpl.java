@@ -2,6 +2,7 @@ package com.eums.presentation;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Scanner;
 
 import com.eums.beans.Employee;
@@ -16,14 +17,15 @@ public class HRPresentationImpl implements HRPresentation {
 	
 	@Override
 	public void showHRMenu(String employeeId) {
-		System.out.println(" HR MENU");
+		LoginPresentationImpl.loginAttempt=3;
+		System.out.println("HR MENU");
 		System.out.println("=========");
-		System.out.println("1. Create new training");
-		System.out.println("2. Modify existing training");
-		System.out.println("3. View employees enrolled for training");
-		System.out.println("4. Approve enrollments for trainings");
+		System.out.println("1. Create New Training");
+		System.out.println("2. Modify Existing Trainings");
+		System.out.println("3. View Employees Enrolled For Training");
+		System.out.println("4. Approve Enrollments For Trainings");
 		System.out.println("5. View Feedback");
-		System.out.println("6. log out");
+		System.out.println("6. Log Out");
 
 		System.out.println("Enter your choice :- ");
 		int choice=sc.nextInt();
@@ -36,7 +38,12 @@ public class HRPresentationImpl implements HRPresentation {
 		{
 		case 1:
 			Training training=inputDetails.inputTrainingDetails();
-			boolean status=hrService.createTrainingInCalender(training);
+			boolean status = false;
+			try {
+				status = hrService.createTrainingInCalender(training);
+			} catch (SQLException e2) {
+				e2.printStackTrace();
+			}
 			if(status)
 				System.out.println("Training Successfully Created");
 			else
@@ -77,22 +84,34 @@ public class HRPresentationImpl implements HRPresentation {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			System.out.println("Enter training Id :-");
-			int tId=sc.nextInt();
-			System.out.println("Enter employee Id :-");
-			String eId=sc.next();
-			try {
-				boolean approvedStatus= hrService.approveEnrollmentOfTraining(eId,tId);
-				if(approvedStatus)
-					System.out.println("Training Approved");
-				else
-					System.out.println("Training not approved");
-			} catch (SQLException e) {
-				e.printStackTrace();
+			System.out.println("1. Approve Pending Requests");
+			System.out.println("2. Return to Previous Menu");
+			int approve=sc.nextInt();
+			if(approve==1)
+			{
+				try {
+					hrService.approveEnrollmentOfTraining();
+					System.out.println("Status after Approval :-");
+					System.out.println(hrService.viewRequestedTraining());
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				break;
 			}
-			break;
+			else
+				break;
 			
 		case 5:
+			LinkedHashMap<Integer,String> hashmap = new LinkedHashMap<>();
+			try {
+				hashmap = hrService.displayAvailableTrainingFeedback();
+				for (int key : hashmap.keySet()) {
+				    System.out.println("Training ID : "+key +" "+"Training Name : "+hashmap.get(key));
+				}
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			System.out.println("Enter the training Id for which you wish to see the feedback :-");
 			int trainId=sc.nextInt();
 			System.out.println("1. View Consolidated Feedback \n2. View detailed feedback");
@@ -119,13 +138,12 @@ public class HRPresentationImpl implements HRPresentation {
 			{
 				System.out.println("Invalid Input...");
 			}
-
 			break;
 			
 		case 6:
 			System.out.println("You Have Successfully Logged Out!");
 			LoginPresentation loginPresentation = new LoginPresentationImpl();
-			loginPresentation.login();
+			loginPresentation.mainMenu();
 			break;
 			
 		default:System.out.println("Invald Input");
